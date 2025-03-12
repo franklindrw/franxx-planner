@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -33,21 +37,39 @@ export class UsersService {
       throw new BadRequestException('User ID is required');
     }
 
-    return await this.usersRepo.findById(id);
+    const user = await this.usersRepo.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async findByEmail(email: string) {
     if (!email) {
       throw new BadRequestException('Email is required');
     }
-    return await this.usersRepo.findByEmail(email);
+    const user = await this.usersRepo.findByEmail(email);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async findByGoogleId(google_id: string) {
     if (!google_id) {
       throw new BadRequestException('Google ID is required');
     }
-    return await this.usersRepo.findByGoogleId(google_id);
+    const user = await this.usersRepo.findByGoogleId(google_id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

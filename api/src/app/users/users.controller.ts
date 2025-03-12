@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   HttpCode,
-  HttpException,
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
@@ -23,15 +22,8 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  async create(@Body() createUserDto: CreateUserDto): Promise<any> {
-    try {
-      const resp = await this.usersService.create(createUserDto);
-      return resp;
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw new HttpException(error.message, error.getStatus());
-      }
-    }
+  create(@Body() createUserDto: CreateUserDto): Promise<any> {
+    return this.usersService.create(createUserDto);
   }
 
   @Get()
