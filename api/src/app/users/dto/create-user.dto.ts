@@ -1,44 +1,47 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
-  /**
-   * Nome do usuário
-   */
+  @ApiProperty({ description: 'Nome do usuário', example: 'Franklin' })
   @IsString()
   @IsNotEmpty()
   first_name: string;
 
-  /**
-   * Sobrenome do usuário
-   */
+  @ApiProperty({ example: 'Campos', description: 'Sobrenome do usuário' })
   @IsString()
   @IsNotEmpty()
   last_name: string;
 
-  /**
-   * Email do usuário
-   */
+  @ApiProperty({
+    example: 'example@email.com',
+    description: 'Email do usuário',
+  })
   @IsString()
   @IsNotEmpty()
   email: string;
 
-  /**
-   * Senha do usuário
-   */
+  @ApiProperty({
+    example: 'P4ssw0rd',
+    description: 'Senha do usuário',
+  })
   @IsString()
   @IsNotEmpty()
   password: string;
 
-  /**
-   * Link da foto do usuário
-   */
+  @ApiProperty({
+    example: 'https://example.com/picture.jpg',
+    description: 'URL da foto do usuário',
+    required: false,
+  })
   @IsString()
   @IsOptional()
   picture?: string;
 
-  /**
-   * Id da conta do google
-   */
+  @ApiProperty({
+    example: '123456789',
+    description: 'ID do usuário no Google',
+    required: false,
+  })
   @IsString()
   @IsOptional()
   googleId?: string;
