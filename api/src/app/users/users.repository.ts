@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersRepository {
@@ -15,29 +16,29 @@ export class UsersRepository {
     });
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { email },
     });
   }
 
-  async findByGoogleId(google_id: string) {
+  async findByGoogleId(google_id: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { google_id },
     });
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { id },
     });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     return this.prisma.user.update({
       where: { id },
       data: {
@@ -46,7 +47,7 @@ export class UsersRepository {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<User> {
     return this.prisma.user.delete({
       where: { id },
     });

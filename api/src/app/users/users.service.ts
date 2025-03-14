@@ -6,20 +6,21 @@ import {
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private usersRepo: UsersRepository) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const existingEmail = await this.usersRepo.findByEmail(createUserDto.email);
     if (existingEmail) {
       throw new BadRequestException('Email already exists');
     }
 
-    if (createUserDto.googleId) {
+    if (createUserDto.google_id) {
       const existingGoogleId = await this.usersRepo.findByGoogleId(
-        createUserDto.googleId,
+        createUserDto.google_id,
       );
       if (existingGoogleId) {
         throw new BadRequestException('Google ID already exists');
@@ -28,11 +29,11 @@ export class UsersService {
     return this.usersRepo.create(createUserDto);
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.usersRepo.findAll();
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<User> {
     if (!id) {
       throw new BadRequestException('User ID is required');
     }
@@ -46,7 +47,7 @@ export class UsersService {
     return user;
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User> {
     if (!email) {
       throw new BadRequestException('Email is required');
     }
@@ -59,7 +60,7 @@ export class UsersService {
     return user;
   }
 
-  async findByGoogleId(google_id: string) {
+  async findByGoogleId(google_id: string): Promise<User> {
     if (!google_id) {
       throw new BadRequestException('Google ID is required');
     }
@@ -72,7 +73,7 @@ export class UsersService {
     return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     if (!id) {
       throw new BadRequestException('User ID is required');
     }

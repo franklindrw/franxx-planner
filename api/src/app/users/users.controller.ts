@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -23,6 +24,7 @@ export class UsersController {
   @Post()
   @HttpCode(201)
   @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 201, type: User })
   @UsePipes(new ValidationPipe({ whitelist: true }))
   create(@Body() createUserDto: CreateUserDto): Promise<any> {
     return this.usersService.create(createUserDto);
@@ -30,7 +32,7 @@ export class UsersController {
 
   @Get()
   @HttpCode(200)
-  @ApiResponse({ status: 200, type: [UpdateUserDto] })
+  @ApiResponse({ status: 200, type: [User] })
   findAll() {
     return this.usersService.findAll();
   }
@@ -38,7 +40,7 @@ export class UsersController {
   @Get(':id')
   @HttpCode(200)
   @ApiParam({ name: 'id', type: Number })
-  @ApiResponse({ status: 200, type: UpdateUserDto })
+  @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findById(+id);
@@ -47,7 +49,7 @@ export class UsersController {
   @Patch(':id')
   @HttpCode(200)
   @ApiParam({ name: 'id', type: Number })
-  @ApiResponse({ status: 200, type: UpdateUserDto })
+  @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiBody({ type: UpdateUserDto })

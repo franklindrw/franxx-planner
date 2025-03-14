@@ -44,5 +44,5 @@ export class CreateUserDto {
   })
   @IsString()
   @IsOptional()
-  googleId?: string;
+  google_id?: string;
 }
