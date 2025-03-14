@@ -12,8 +12,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserCreateDto } from './dto/user-create.dto';
+import { UserUpdateDto } from './dto/user-update.dto';
 import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
@@ -23,10 +23,10 @@ export class UsersController {
 
   @Post()
   @HttpCode(201)
-  @ApiBody({ type: CreateUserDto })
+  @ApiBody({ type: UserCreateDto })
   @ApiResponse({ status: 201, type: User })
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  create(@Body() createUserDto: CreateUserDto): Promise<any> {
+  create(@Body() createUserDto: UserCreateDto): Promise<any> {
     return this.usersService.create(createUserDto);
   }
 
@@ -52,11 +52,11 @@ export class UsersController {
   @ApiResponse({ status: 200, type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiBody({ type: UpdateUserDto })
+  @ApiBody({ type: UserUpdateDto })
   @UsePipes(new ValidationPipe({ whitelist: true }))
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() updateUserDto: UserUpdateDto,
   ) {
     return this.usersService.update(+id, updateUserDto);
   }
