@@ -7,10 +7,14 @@ import { UsersRepository } from './users.repository';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { User } from './entities/user.entity';
+import { CryptoService } from 'src/shared/crypto/crypto.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepo: UsersRepository) {}
+  constructor(
+    private usersRepo: UsersRepository,
+    private cryptoService: CryptoService,
+  ) {}
 
   async create(createUserDto: UserCreateDto): Promise<User> {
     const existingEmail = await this.usersRepo.findByEmail(createUserDto.email);
@@ -26,6 +30,13 @@ export class UsersService {
         throw new BadRequestException('Google ID already exists');
       }
     }
+
+    if (createUserDto.password) {
+      createUserDto.password = await this.cryptoService.hashPassword(
+        createUserDto.password,
+      );
+    }
+
     return this.usersRepo.create(createUserDto);
   }
 
