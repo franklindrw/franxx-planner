@@ -1,0 +1,63 @@
+<div class="form">
+  <form>
+    <div class="form__group">
+      <mat-form-field class="form__input">
+        <mat-label>Nome</mat-label>
+        <input
+          matInput
+          placeholder="Digite seu Nome"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="form__input">
+        <mat-label>Sobrenome</mat-label>
+        <input
+          matInput
+          placeholder="Digite seu sobrenome"
+          formControlName="lastName"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="form__input">
+      <mat-label>E-mail</mat-label>
+      <input matInput placeholder="Digite seu e-mail" formControlName="email" />
+    </mat-form-field>
+
+    <mat-form-field class="form__input">
+      <mat-label>Telefone</mat-label>
+      <input
+        matInput
+        placeholder="Digite seu telefone"
+        formControlName="phone"
+      />
+    </mat-form-field>
+
+    <div class="form__group">
+      <mat-form-field class="form__input">
+        <mat-label>Senha</mat-label>
+        <input
+          matInput
+          placeholder="Digite sua senha"
+          formControlName="password"
+          type="password"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="form__input">
+        <mat-label>Confirme sua senha</mat-label>
+        <input
+          matInput
+          placeholder="Confirme sua senha"
+          formControlName="confirmPassword"
+          type="password"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="form__submit">
+      <button mat-flat-button type="submit">Cadastrar</button>
+    </div>
+  </form>
+</div>

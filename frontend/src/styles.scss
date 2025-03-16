@@ -1,14 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Open Sans", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  background-color: #09090b;
+}
 
 // customizando o tema do material ui
 @include mat.core();
 
+$default-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: (
+      plain-family: "Open Sans",
+      brand-family: "Open Sans",
+
+      bold-weight: 800,
+      medium-weight: 500,
+      regular-weight: 400,
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
 $compact-theme: mat.define-theme(
   (
+    color: (
+      theme-type: dark,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$orange-palette,
+    ),
     typography: (
       plain-family: "Open Sans",
       brand-family: "Open Sans",
@@ -24,5 +57,21 @@ $compact-theme: mat.define-theme(
 );
 
 :root {
-  @include mat.form-field-theme($compact-theme);
+  // @include mat.form-field-theme($compact-theme);
+  @include mat.all-component-themes($compact-theme);
+}
+
+// customização dos inputs
+::placeholder {
+  color: #9b9b9b !important;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #9b9b9b !important;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: #9b9b9b !important;
 }
