@@ -1,31 +1,41 @@
 <div class="form">
-  <form>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form__group">
-      <mat-form-field class="form__input">
+      <mat-form-field class="form__control">
         <mat-label>Nome</mat-label>
         <input
           matInput
           placeholder="Digite seu Nome"
-          formControlName="firstName"
+          formControlName="first_name"
         />
+        @if(registerForm.get('first_name')?.hasError('required')) {
+        <mat-error class="form__error"> Nome é obrigatório </mat-error>}
+        @if(registerForm.get('first_name')?.hasError('minlength')) {
+        <mat-error> Nome deve ter no mínimo 3 caracteres </mat-error>
+        }
       </mat-form-field>
 
-      <mat-form-field class="form__input">
+      <mat-form-field class="form__control">
         <mat-label>Sobrenome</mat-label>
         <input
           matInput
           placeholder="Digite seu sobrenome"
-          formControlName="lastName"
+          formControlName="last_name"
         />
+        @if(registerForm.get('last_name')?.hasError('required')) {
+        <mat-error class="form__error"> Sobrenome é obrigatório </mat-error>}
+        @if(registerForm.get('last_name')?.hasError('minlength')) {
+        <mat-error> Sobrenome deve ter no mínimo 3 caracteres </mat-error>
+        }
       </mat-form-field>
     </div>
 
-    <mat-form-field class="form__input">
+    <mat-form-field class="form__control">
       <mat-label>E-mail</mat-label>
       <input matInput placeholder="Digite seu e-mail" formControlName="email" />
     </mat-form-field>
 
-    <mat-form-field class="form__input">
+    <mat-form-field class="form__control">
       <mat-label>Telefone</mat-label>
       <input
         matInput
@@ -35,7 +45,7 @@
     </mat-form-field>
 
     <div class="form__group">
-      <mat-form-field class="form__input">
+      <mat-form-field class="form__control">
         <mat-label>Senha</mat-label>
         <input
           matInput
@@ -45,7 +55,7 @@
         />
       </mat-form-field>
 
-      <mat-form-field class="form__input">
+      <mat-form-field class="form__control">
         <mat-label>Confirme sua senha</mat-label>
         <input
           matInput
@@ -57,7 +67,13 @@
     </div>
 
     <div class="form__submit">
-      <button mat-flat-button type="submit">Cadastrar</button>
+      <button
+        mat-flat-button
+        type="submit"
+        [disabled]="!this.registerForm.valid"
+      >
+        Cadastrar
+      </button>
     </div>
   </form>
 </div>

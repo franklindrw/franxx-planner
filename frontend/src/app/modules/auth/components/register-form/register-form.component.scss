@@ -2,16 +2,27 @@
   width: 100%;
   padding: 2em 0;
 
+  & input {
+    height: auto;
+    min-height: 0.5em;
+  }
+
   &__group {
     width: 100%;
     display: flex;
     gap: 1em;
   }
 
-  &__input {
+  &__control {
     width: 100%;
     display: flex;
     gap: 1em;
+    margin: 0.3em 0;
+  }
+
+  &__error {
+    margin-top: -1.5em;
+    margin-left: -1em;
   }
 
   &__submit {
