@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { RouterModule } from '@angular/router';
+import { provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { RouterModule } from '@angular/router';
         component: RegisterPageComponent
       }
     ])
-  ]
+  ],
+  providers: [
+    provideNgxMask()
+  ],
 })
 export class AuthModule { }

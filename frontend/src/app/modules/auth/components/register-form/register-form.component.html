@@ -33,6 +33,10 @@
     <mat-form-field class="form__control">
       <mat-label>E-mail</mat-label>
       <input matInput placeholder="Digite seu e-mail" formControlName="email" />
+      @if(registerForm.get('email')?.hasError('required')) {
+      <mat-error class="form__error"> E-mail é obrigatório </mat-error>}
+      @if(registerForm.get('email')?.hasError('email')) {
+      <mat-error class="form__error"> E-mail inválido </mat-error>}
     </mat-form-field>
 
     <mat-form-field class="form__control">
@@ -41,7 +45,10 @@
         matInput
         placeholder="Digite seu telefone"
         formControlName="phone"
+        mask="(00) 0000-0000||(00) 00000-0000"
       />
+      @if(registerForm.get('phone')?.hasError('mask')) {
+      <mat-error class="form__error"> Telefone inválido </mat-error>}
     </mat-form-field>
 
     <div class="form__group">
@@ -53,6 +60,11 @@
           formControlName="password"
           type="password"
         />
+        @if(registerForm.get('password')?.hasError('required')) {
+        <mat-error class="form__error"> Senha é obrigatória </mat-error>}
+        @if(registerForm.get('password')?.hasError('minlength')) {
+        <mat-error class="form__error"> Mínimo 6 caracteres </mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field class="form__control">
@@ -63,6 +75,10 @@
           formControlName="confirmPassword"
           type="password"
         />
+        @if(registerForm.get('confirmPassword')?.hasError('required')) {
+        <mat-error class="form__error">Confirmação é obrigatória</mat-error>}
+        @if (registerForm.get('confirmPassword')?.hasError('minlength')) {
+        <mat-error class="form__error"> Mínimo 6 caracteres </mat-error>}
       </mat-form-field>
     </div>
 
