@@ -58,8 +58,18 @@
           matInput
           placeholder="Digite sua senha"
           formControlName="password"
-          type="password"
+          [type]="hide() ? 'password' : 'text'"
         />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+          class="form__icon"
+        >
+          <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
         @if(registerForm.get('password')?.hasError('required')) {
         <mat-error class="form__error"> Senha é obrigatória </mat-error>}
         @if(registerForm.get('password')?.hasError('minlength')) {
@@ -86,9 +96,11 @@
       <button
         mat-flat-button
         type="submit"
-        [disabled]="!this.registerForm.valid"
+        [disabled]="!this.registerForm.valid || submitted"
+        class="form__button"
       >
-        Cadastrar
+        <span *ngIf="!submitted">Cadastrar</span>
+        <mat-spinner *ngIf="submitted" diameter="20"></mat-spinner>
       </button>
     </div>
   </form>

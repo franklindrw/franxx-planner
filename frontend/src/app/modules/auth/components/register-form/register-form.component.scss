@@ -1,6 +1,7 @@
 .form {
   width: 100%;
-  padding: 2em 0;
+  padding: 0.5em 0;
+  margin-bottom: 2em;
 
   & input {
     height: auto;
@@ -10,7 +11,7 @@
   &__group {
     width: 100%;
     display: flex;
-    gap: 1em;
+    flex-direction: column;
   }
 
   &__control {
@@ -25,15 +26,36 @@
     margin-left: -1em;
   }
 
+  &__icon {
+    margin-right: 1em;
+    font-size: 0.8em;
+  }
+
   &__submit {
     width: 60%;
     margin: 0 auto;
   }
 }
 
-button {
+.form__button {
   width: 100%;
   font-weight: 700;
   font-size: 1.2em;
   padding: 1em;
+}
+
+.load-spinner {
+  width: 2em;
+  height: 2em;
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    padding: 2em 0;
+
+    &__group {
+      flex-direction: row;
+      gap: 1em;
+    }
+  }
 }

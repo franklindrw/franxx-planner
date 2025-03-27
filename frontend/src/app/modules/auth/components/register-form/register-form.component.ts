@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 import { Subject } from 'rxjs';
 import { NgxMaskDirective } from 'ngx-mask';
@@ -8,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-register-form',
@@ -18,6 +21,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatError,
     ReactiveFormsModule,
     NgxMaskDirective,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    NgIf,
   ],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
@@ -26,6 +32,12 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
   registerForm!: FormGroup;
   submitted = false;
+  hide = signal(true);
+
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
+  }
 
   constructor(private formBuilder: FormBuilder) {}
 
