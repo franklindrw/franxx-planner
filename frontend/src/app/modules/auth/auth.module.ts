@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { RouterModule } from '@angular/router';
 import { provideNgxMask } from 'ngx-mask';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 @NgModule({
   imports: [
@@ -11,8 +12,12 @@ import { provideNgxMask } from 'ngx-mask';
     RouterModule.forChild([
       {
         path: '',
-        redirectTo: 'cadastre-se',
+        redirectTo: 'entrar',
         pathMatch: 'full'
+      },
+      {
+        path: 'entrar',
+        component: LoginPageComponent
       },
       {
         path: 'cadastre-se',

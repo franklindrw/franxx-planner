@@ -1,0 +1,56 @@
+<form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>E-mail</mat-label>
+    <input matInput placeholder="Digite seu e-mail" formControlName="email" />
+    <mat-error
+      class="form__error"
+      *ngIf="loginForm.get('email')?.hasError('required')"
+    >
+      E-mail é obrigatório
+    </mat-error>
+    <mat-error
+      class="form__error"
+      *ngIf="loginForm.get('email')?.hasError('email')"
+    >
+      E-mail inválido
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Senha</mat-label>
+    <input
+      matInput
+      placeholder="Digite sua senha"
+      formControlName="password"
+      [type]="hide() ? 'password' : 'text'"
+    />
+    <button
+      class="form__icon"
+      mat-icon-button
+      matSuffix
+      (click)="toggleHide()"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide()"
+      class="form__icon"
+    >
+      <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+    <mat-error
+      class="form__error"
+      *ngIf="loginForm.get('password')?.hasError('required')"
+    >
+      Senha é obrigatória
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    class="submit-btn"
+    mat-flat-button
+    color="primary"
+    type="submit"
+    [disabled]="loginForm.invalid || submitting"
+  >
+    <span *ngIf="!submitting">Entrar</span>
+    <mat-spinner *ngIf="submitting" diameter="20"></mat-spinner>
+  </button>
+</form>
