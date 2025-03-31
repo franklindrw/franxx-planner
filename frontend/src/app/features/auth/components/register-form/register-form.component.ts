@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { NgIf } from '@angular/common';
 
 import { Subject } from 'rxjs';
-import { NgxMaskDirective } from 'ngx-mask';
+import { takeUntil } from 'rxjs/operators';
+
+import { AuthService } from '@features/auth/services/auth.service';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,7 +22,6 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatError,
     ReactiveFormsModule,
-    NgxMaskDirective,
     MatProgressSpinnerModule,
     MatIconModule,
     NgIf,
@@ -39,13 +40,12 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      phone: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -56,6 +56,10 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     return this.registerForm.controls;
   }
 
+  getPasswordVerify() {
+    return this.registerForm.get('confirmPassword')?.value === this.registerForm.get('password')?.value;
+  }
+
   onSubmit() {
     this.submitted = true;
 
@@ -63,7 +67,32 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('Register form submitted', this.registerForm.value);
+    if (!this.getPasswordVerify()) {
+      this.registerForm.get('confirmPassword')?.setErrors({ notMatching: true });
+      return;
+    }
+
+    const data = {
+      first_name: this.registerForm.get('first_name')?.value,
+      last_name: this.registerForm.get('last_name')?.value,
+      email: this.registerForm.get('email')?.value,
+      password: this.registerForm.get('password')?.value,
+    }
+
+    this.authService.register(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+        error: (err) => {
+          console.error(err);
+          this.submitted = false;
+        },
+        complete: () => {
+          this.submitted = false;
+        }
+      });
   }
 
   ngOnDestroy(): void {

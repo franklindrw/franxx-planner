@@ -7,6 +7,7 @@
           matInput
           placeholder="Digite seu Nome"
           formControlName="first_name"
+          aria-label="Nome"
         />
         @if(registerForm.get('first_name')?.hasError('required')) {
         <mat-error class="form__error"> Nome é obrigatório </mat-error>}
@@ -21,6 +22,7 @@
           matInput
           placeholder="Digite seu sobrenome"
           formControlName="last_name"
+          aria-label="Sobrenome"
         />
         @if(registerForm.get('last_name')?.hasError('required')) {
         <mat-error class="form__error"> Sobrenome é obrigatório </mat-error>}
@@ -32,23 +34,16 @@
 
     <mat-form-field class="form__control">
       <mat-label>E-mail</mat-label>
-      <input matInput placeholder="Digite seu e-mail" formControlName="email" />
+      <input
+        matInput
+        placeholder="Digite seu e-mail"
+        formControlName="email"
+        aria-label="E-mail"
+      />
       @if(registerForm.get('email')?.hasError('required')) {
       <mat-error class="form__error"> E-mail é obrigatório </mat-error>}
       @if(registerForm.get('email')?.hasError('email')) {
       <mat-error class="form__error"> E-mail inválido </mat-error>}
-    </mat-form-field>
-
-    <mat-form-field class="form__control">
-      <mat-label>Telefone</mat-label>
-      <input
-        matInput
-        placeholder="Digite seu telefone"
-        formControlName="phone"
-        mask="(00) 0000-0000||(00) 00000-0000"
-      />
-      @if(registerForm.get('phone')?.hasError('mask')) {
-      <mat-error class="form__error"> Telefone inválido </mat-error>}
     </mat-form-field>
 
     <div class="form__group">
@@ -59,6 +54,7 @@
           placeholder="Digite sua senha"
           formControlName="password"
           [type]="hide() ? 'password' : 'text'"
+          aria-label="Senha"
         />
         <button
           mat-icon-button
@@ -84,6 +80,7 @@
           placeholder="Confirme sua senha"
           formControlName="confirmPassword"
           type="password"
+          aria-label="Confirmação de senha"
         />
         @if(registerForm.get('confirmPassword')?.hasError('required')) {
         <mat-error class="form__error">Confirmação é obrigatória</mat-error>}
