@@ -1,0 +1,75 @@
+$bg-info: #d6e3ff;
+$bg-success: #cdeda3;
+$bg-error: #ffdad6;
+$bg-warning: #f8e287;
+
+$success: #43664e;
+$info: #415f91;
+$error: #a63e3e;
+$warning: #a67b00;
+
+.custom-toast {
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 12px;
+  border-radius: 8px;
+  justify-content: space-between;
+
+  &.success {
+    background-color: $bg-success;
+    color: $success;
+
+    mat-icon {
+      color: $success;
+    }
+  }
+
+  &.info {
+    background-color: $bg-info;
+    color: $info;
+
+    mat-icon {
+      color: $info;
+    }
+  }
+
+  &.error {
+    background-color: $bg-error;
+    color: $error;
+
+    mat-icon {
+      color: $error;
+    }
+  }
+
+  &.warning {
+    background-color: $bg-warning;
+    color: $warning;
+
+    mat-icon {
+      color: $warning;
+    }
+  }
+
+  &.icon {
+    color: #000;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.desc {
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 0.5em;
+}

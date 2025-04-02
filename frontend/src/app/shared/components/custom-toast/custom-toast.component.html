@@ -1,0 +1,18 @@
+<div class="custom-toast" [class]="data.type">
+  <div class="content">
+    <div class="icon">
+      <mat-icon *ngIf="data.type === 'success'">check_circle</mat-icon>
+      <mat-icon *ngIf="data.type === 'info'">info</mat-icon>
+      <mat-icon *ngIf="data.type === 'warning'">warning</mat-icon>
+      <mat-icon *ngIf="data.type === 'error'">error</mat-icon>
+    </div>
+    <div class="text">
+      <div class="title">{{ data.title }}</div>
+      <div *ngIf="data.desc" class="desc">{{ data.desc }}</div>
+    </div>
+  </div>
+
+  <button class="button" mat-icon-button (click)="close()">
+    <mat-icon color="blue">close</mat-icon>
+  </button>
+</div>

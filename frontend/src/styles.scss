@@ -59,6 +59,12 @@ $compact-theme: mat.define-theme(
 :root {
   // @include mat.form-field-theme($compact-theme);
   @include mat.all-component-themes($compact-theme);
+
+  @include mat.snack-bar-overrides(
+    (
+      container-color: none,
+    )
+  );
 }
 
 // customização dos inputs
