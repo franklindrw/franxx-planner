@@ -8,5 +8,6 @@ import { CryptoService } from 'src/shared/crypto/crypto.service';
 @Module({
   controllers: [UsersController],
   providers: [UsersService, UsersRepository, PrismaService, CryptoService],
+  exports: [UsersService, UsersRepository],
 })
 export class UsersModule {}

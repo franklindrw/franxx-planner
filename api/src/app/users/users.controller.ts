@@ -26,7 +26,7 @@ export class UsersController {
   @ApiBody({ type: UserCreateDto })
   @ApiResponse({ status: 201, type: User })
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  create(@Body() createUserDto: UserCreateDto): Promise<any> {
+  create(@Body() createUserDto: UserCreateDto): Promise<User> {
     return this.usersService.create(createUserDto);
   }
 
