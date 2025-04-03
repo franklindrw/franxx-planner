@@ -13,6 +13,8 @@ import { MatError } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
+import { ToastService } from '@shared/services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -40,7 +42,12 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -83,10 +90,20 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          console.log(res);
+          this.toastService.open({
+            title: 'Sucesso!',
+            desc: 'Conta criada com sucesso',
+            type: 'success'
+          })
+          this.router.navigate(['/entrar']);
         },
         error: (err) => {
           console.error(err);
+          this.toastService.open({
+            title: 'Ops! ocorreu um erro',
+            desc: 'não foi possível criar sua conta, tente novamente.',
+            type: 'error'
+          })
           this.submitted = false;
         },
         complete: () => {
