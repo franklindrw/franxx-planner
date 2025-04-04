@@ -19,7 +19,7 @@ export class UsersService {
   async create(createUserDto: UserCreateDto): Promise<User> {
     const existingEmail = await this.usersRepo.findByEmail(createUserDto.email);
     if (existingEmail) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException('E-mail já cadastrado em nossa base.');
     }
 
     if (createUserDto.google_id) {
@@ -27,7 +27,7 @@ export class UsersService {
         createUserDto.google_id,
       );
       if (existingGoogleId) {
-        throw new BadRequestException('Google ID already exists');
+        throw new BadRequestException('Conta da Google já vinculada.');
       }
     }
 

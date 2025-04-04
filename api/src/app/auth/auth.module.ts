@@ -11,6 +11,7 @@ import { PrismaService } from 'src/shared/prisma/prisma.service';
 @Module({
   imports: [
     JwtModule.register({
+      global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '2h', algorithm: 'HS256' },
     }),

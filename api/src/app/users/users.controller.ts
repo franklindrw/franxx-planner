@@ -10,12 +10,14 @@ import {
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserUpdateDto } from './dto/user-update.dto';
-import { ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
+import { AuthGuard } from 'src/app/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -31,6 +33,8 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(200)
   @ApiResponse({ status: 200, type: [User] })
   findAll() {
@@ -38,6 +42,8 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(200)
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({ status: 200, type: User })
@@ -47,6 +53,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(200)
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({ status: 200, type: User })
@@ -62,6 +70,8 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(204)
   @ApiParam({ name: 'id', type: Number })
   @ApiResponse({ status: 204, description: 'User deleted' })
