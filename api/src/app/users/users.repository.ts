@@ -4,6 +4,9 @@ import { UserCreateDto } from './dto/user-create.dto';
 import { UserUpdateDto } from './dto/user-update.dto';
 import { User } from './entities/user.entity';
 
+/**
+ * Manipuladores de dados do banco relacionados aos usuários
+ */
 @Injectable()
 export class UsersRepository {
   constructor(private prisma: PrismaService) {}

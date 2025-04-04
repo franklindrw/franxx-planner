@@ -4,6 +4,9 @@ import * as basicAuth from 'express-basic-auth';
 
 const password = process.env.SWAGGER_PASSWORD as string;
 
+/**
+ * Configuração para geração de documentação com Swagger
+ */
 export const setupSwagger = (app: INestApplication) => {
   // Configuração de autenticação
   app.use(
@@ -24,6 +27,10 @@ export const setupSwagger = (app: INestApplication) => {
       'http://linkedin.com/in/franklindrw',
       'franklindrw@gmail.com',
     )
+    .addExtension('x-docs-json', {
+      url: 'http://localhost:3000/docs-json',
+      description: 'Docs JSON',
+    })
     .build();
 
   const documentFactory = SwaggerModule.createDocument(app, config);
