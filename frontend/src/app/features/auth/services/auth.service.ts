@@ -12,7 +12,7 @@ export class AuthService {
   constructor(@Inject(HTTP_PORT) private http: IHttpPort) {}
 
   login(email: string, password: string) {
-    return this.http.post('/users', { email, password });
+    return from(this.http.post('/auth/login', { email, password }));
   }
 
   register(body: ICreateUser): Observable<IUser> {

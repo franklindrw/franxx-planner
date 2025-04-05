@@ -37,6 +37,9 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
   submitted = false;
   hide = signal(true);
 
+/**
+ * Captura o clique no botão de visibilidade da senha
+ */
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();

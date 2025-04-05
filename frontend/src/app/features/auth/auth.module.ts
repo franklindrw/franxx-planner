@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { provideNgxMask } from 'ngx-mask';
 
 import { AuthService } from './services/auth.service';
 
@@ -29,9 +28,6 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
       }
     ])
   ],
-  providers: [
-    provideNgxMask(),
-    AuthService,
-  ],
+  providers: [ AuthService],
 })
 export class AuthModule { }
