@@ -72,17 +72,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.toastService.open({
-            title: 'Sucesso!',
-            desc: 'Logado com sucesso',
-            type: 'success'
-          })
           this.router.navigate(['/home']);
         },
         error: (err) => {
           this.toastService.open({
             title: 'Ops! ocorreu um erro',
-            desc: 'não foi possível logar, tente novamente.',
+            desc: err.error.message,
             type: 'error'
           })
           this.submitting = false;

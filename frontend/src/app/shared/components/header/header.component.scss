@@ -1,0 +1,54 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 0;
+  flex-wrap: wrap-reverse;
+}
+
+.profile {
+  margin: 0 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+
+  & a {
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.avatar-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 2em;
+}
+
+.exit-icon {
+  margin-top: 0.1em;
+  margin-left: 0.1em;
+  font-size: 0.8em;
+}
+
+.logo {
+  margin: 0 1em;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+
+  & img {
+    width: 120px;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .logo {
+    max-width: 200px;
+  }
+}

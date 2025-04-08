@@ -1,0 +1,22 @@
+<div class="header">
+  <div class="profile">
+    <mat-icon
+      aria-hidden="true"
+      aria-label="perfil do usuário"
+      class="avatar-icon"
+      fontIcon="account_circle"
+    ></mat-icon>
+
+    <span>
+      olá, <a routerLink="/pefil">{{ username() }}</a></span
+    >
+
+    <button mat-icon-button aria-label="botão sair" (click)="logout()">
+      <mat-icon class="exit-icon">logout</mat-icon>
+    </button>
+  </div>
+
+  <div class="logo">
+    <img src="images/planner-logo.webp" alt="logotipo do sistema" />
+  </div>
+</div>
