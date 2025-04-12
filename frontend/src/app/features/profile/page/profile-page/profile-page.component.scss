@@ -1,0 +1,88 @@
+:host {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: auto;
+    height: 40px;
+    margin-bottom: 1em;
+  }
+}
+
+.profile {
+  &__content {
+    background-color: #18181b;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1.5em 0;
+
+    & p {
+      color: #fff;
+      text-align: center;
+      font-weight: 600;
+    }
+  }
+
+  &__avatar {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: #fff;
+    margin: 0 auto;
+  }
+
+  &__back {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 0.8em;
+  }
+
+  &__form {
+    width: 100%;
+    margin-top: 1em;
+    gap: 1.5em;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+.field {
+  display: block;
+  margin: 0.8em auto;
+  width: 100%;
+
+  &.email {
+    width: 80%;
+    margin: 0.8em auto;
+  }
+
+  &.group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    gap: 0.5em;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .field {
+    &.group {
+      flex-direction: row;
+    }
+  }
+}

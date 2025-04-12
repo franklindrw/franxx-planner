@@ -1,0 +1,64 @@
+<img src="images/planner-logo.webp" alt="logotipo do sistema" />
+
+<div class="profile__back">
+  <button mat-button (click)="back()">
+    <mat-icon>chevron_left</mat-icon>
+    voltar
+  </button>
+</div>
+
+<div class="profile__content">
+  <mat-icon
+    aria-hidden="true"
+    aria-label="perfil do usuário"
+    class="profile__avatar"
+    fontIcon="account_circle"
+  ></mat-icon>
+  <p>Franklin Campos</p>
+
+  <div class="profile__form">
+    <div class="field group">
+      <mat-form-field class="field firstName">
+        <mat-label>Nome</mat-label>
+        <input
+          [defaultValue]="'Franklin'"
+          formControlName="first_name"
+          placeholder="Digite seu nome"
+          matInput
+          type="text"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="field lastName">
+        <mat-label>Sobrenome</mat-label>
+        <input
+          [defaultValue]="'Campos'"
+          formControlName="last_name"
+          placeholder="Digite seu nome"
+          matInput
+          type="text"
+        />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="field email">
+      <mat-label>E-mail</mat-label>
+      <input
+        matInput
+        placeholder="Digite seu e-mail"
+        formControlName="email"
+        [defaultValue]="'franklin@email.com'"
+      />
+      <mat-error class="form__error"> E-mail é obrigatório </mat-error>
+      <mat-error class="form__error"> E-mail inválido </mat-error>
+    </mat-form-field>
+
+    <div class="profile__footer">
+      <button mat-button>Alterar senha</button>
+      <button mat-flat-button>
+        <mat-icon>save</mat-icon>
+        Salvar
+      </button>
+    </div>
+  </div>
+</div>
