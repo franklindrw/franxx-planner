@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { NgIf } from '@angular/common';
 
 import {
   MatDialogActions,
@@ -25,7 +24,6 @@ import { MatError, MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatInputModule,
     MatError,
-    NgIf,
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss'

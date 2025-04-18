@@ -3,14 +3,14 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
+    loadChildren: () => import('./features/auth/auth.routes').then(r => r.AUTH_ROUTES),
   },
   {
     path: 'home',
-    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
+    loadChildren: () => import('./features/home/home.routes').then(r => r.HOME_ROUTES),
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('./features/profile/profile.routes').then(r => r.PROFILE_ROUTES)
   }
 ];
