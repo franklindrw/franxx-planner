@@ -1,0 +1,16 @@
+@use "variables" as *;
+
+@mixin container-flex {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  background-color: $background-color-light;
+}
+
+@mixin danger-btn {
+  color: $danger;
+
+  &:hover {
+    background-color: $bg-danger;
+  }
+}

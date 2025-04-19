@@ -79,6 +79,15 @@
   }
 }
 
+.exclude-btn {
+  margin-top: 1em;
+  color: #af2310 !important;
+
+  &:hover {
+    background-color: #530d01;
+  }
+}
+
 @media screen and (min-width: 540px) {
   .field {
     &.group {

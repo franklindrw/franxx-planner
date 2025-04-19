@@ -1,0 +1,46 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100dvh;
+  max-width: 600px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.container {
+  @include container-flex;
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+p {
+  max-width: 450px;
+  margin: 12px auto;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 0 auto;
+  gap: 10px;
+  margin-top: 20px;
+
+  & button:first-child {
+    font-weight: 700;
+    font-size: 1em;
+  }
+
+  & button:last-child {
+    @include danger-btn;
+  }
+}

@@ -35,4 +35,8 @@ export class ProfilePageComponent {
     })
   }
 
+  unsuscribe() {
+    this.router.navigate(['/perfil/desinscreva-se']);
+  }
+
 }
