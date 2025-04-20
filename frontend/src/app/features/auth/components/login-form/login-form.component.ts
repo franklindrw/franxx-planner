@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Subject, takeUntil } from 'rxjs';
@@ -12,6 +12,7 @@ import { MatError, MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login-form',
@@ -30,20 +31,21 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject<void>();
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly toastService = inject(ToastService);
+  private readonly cookieService = inject(CookieService);
+  private readonly router = inject(Router);
+
   loginForm!: FormGroup;
   submitting = false;
   hide = signal(true);
 
+  redirect = this.router.routerState.snapshot.root.queryParams['redirectTo'] || '/home';
+
   toggleHide() {
     this.hide.set(!this.hide());
   }
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private toastService: ToastService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -72,7 +74,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.router.navigate(['/home']);
+          this.cookieService.set('frxx_tk', res.access_token);
+          this.router.navigate([this.redirect]);
         },
         error: (err) => {
           this.toastService.open({
