@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-login-form',
@@ -36,6 +37,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly cookieService = inject(CookieService);
   private readonly router = inject(Router);
+
+  private readonly TOKEN_KEY: string = environment.TOKEN_KEY;
 
   loginForm!: FormGroup;
   submitting = false;
@@ -74,7 +77,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.cookieService.set('frxx_tk', res.access_token);
+          this.cookieService.set(this.TOKEN_KEY, res.access_token);
           this.router.navigate([this.redirect]);
         },
         error: (err) => {

@@ -34,12 +34,18 @@ export class AuthService {
       throw new BadRequestException('Usuário ou senha incorreta');
     }
 
-    const token = this.jwtService.sign({
+    const access_token = this.jwtService.sign({
       email: user.email,
       id: user.id,
       name: user.first_name,
     });
 
-    return { access_token: token };
+    const userData = {
+      id: user.id,
+      name: `${user.first_name} ${user.last_name}`,
+      email: user.email,
+    };
+
+    return { access_token, user: userData };
   }
 }
