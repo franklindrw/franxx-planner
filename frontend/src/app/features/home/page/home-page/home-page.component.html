@@ -1,3 +1,7 @@
 <div class="container">
-  <app-header [username]="'Franklin Campos'"></app-header>
+  <app-header
+    [username]="user.name"
+    (logout)="logout()"
+    [userId]="user.id"
+  ></app-header>
 </div>

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatInputModule } from '@angular/material/input';
@@ -19,12 +19,18 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
-export class ProfilePageComponent {
-  private readonly router = inject(Router);
+export class ProfilePageComponent implements OnInit {
+  private readonly navigation = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
 
+  ngOnInit(): void {
+    const userId = this.route.snapshot.paramMap.get('id');
+    console.log(userId);
+  }
+
   back() {
-    this.router.navigate(['/home']);
+    this.navigation.navigate(['/home']);
   }
 
   openEditPassword(): void {
@@ -36,7 +42,7 @@ export class ProfilePageComponent {
   }
 
   unsuscribe() {
-    this.router.navigate(['/perfil/desinscreva-se']);
+    this.navigation.navigate(['/perfil/desinscreva-se']);
   }
 
 }

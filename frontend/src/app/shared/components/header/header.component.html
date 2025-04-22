@@ -8,10 +8,10 @@
     ></mat-icon>
 
     <span>
-      olá, <a routerLink="/perfil">{{ username() }}</a></span
+      olá, <a [routerLink]="['/perfil', userId]">{{ username }}</a></span
     >
 
-    <button mat-icon-button aria-label="botão sair" (click)="logout()">
+    <button mat-icon-button aria-label="botão sair" (click)="onLogout()">
       <mat-icon class="exit-icon">logout</mat-icon>
     </button>
   </div>

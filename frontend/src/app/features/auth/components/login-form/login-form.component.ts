@@ -15,6 +15,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '@env/environment';
 
+const { TOKEN_KEY, TOKEN_USER } = environment;
+
 @Component({
   selector: 'app-login-form',
   imports: [
@@ -37,8 +39,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private readonly toastService = inject(ToastService);
   private readonly cookieService = inject(CookieService);
   private readonly router = inject(Router);
-
-  private readonly TOKEN_KEY: string = environment.TOKEN_KEY;
 
   loginForm!: FormGroup;
   submitting = false;
@@ -77,7 +77,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.cookieService.set(this.TOKEN_KEY, res.access_token);
+          this.cookieService.set(TOKEN_KEY, res.access_token);
+          this.cookieService.set(TOKEN_USER, JSON.stringify(res.user));
           this.router.navigate([this.redirect]);
         },
         error: (err) => {

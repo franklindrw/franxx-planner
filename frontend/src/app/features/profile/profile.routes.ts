@@ -3,7 +3,7 @@ import { UnsubscribePageComponent } from "./page/unsubscribe-page/unsubscribe-pa
 
 export const PROFILE_ROUTES = [
   {
-    path: '',
+    path: ':id',
     component: ProfilePageComponent
   },
   {

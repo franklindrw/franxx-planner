@@ -1,12 +1,8 @@
-import { Component, inject, input, OnDestroy } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { Subject } from 'rxjs';
-
-import { CookieService } from '@shared/services/cookie.service';
+import { Component, EventEmitter, Input, input, Output, output, Signal } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-header',
@@ -14,23 +10,13 @@ import { environment } from '@env/environment';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnDestroy {
-  private readonly destroy$: Subject<void> = new Subject<void>();
-  private readonly cookieService = inject(CookieService);
+export class HeaderComponent {
+  @Input({  required: true }) username!: string;
+  @Input({  required: true }) userId!: string;
 
-  private readonly TOKEN_KEY: string = environment.TOKEN_KEY;
+  @Output() logout = new EventEmitter<void>();
 
-  username = input<string>();
-
-  private readonly router = inject(Router);
-
-  logout() {
-    this.cookieService.deleteCookie(this.TOKEN_KEY);
-    this.router.navigate(['/entrar']);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  onLogout() {
+    this.logout.emit();
   }
 }
