@@ -1,23 +1,17 @@
 import { Injectable, inject } from '@angular/core';
-import { CookieService as NgxCookieService } from 'ngx-cookie-service';
+import { COOKIE_PORT, type CookieOptions, type ICookiePort } from '@core/ports/cookie.port';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CookieService {
+  private readonly cookie = inject<ICookiePort>(COOKIE_PORT);
 
-  private readonly cookie = inject(NgxCookieService);
-
-  setCookie(name: string, value: string, expires?: 1): void {
-    this.cookie.set(name, value, {
-      expires: expires,
-      path: '/',
-      sameSite: 'Lax',
-      secure: true,
-    })
+  setCookie(name: string, value: string, options?: CookieOptions): void {
+    this.cookie.set(name, value, options);
   }
 
-  getCookie(name: string): string {
+  getCookie(name: string): string | null {
     return this.cookie.get(name);
   }
 
@@ -26,10 +20,10 @@ export class CookieService {
   }
 
   deleteCookie(name: string): void {
-    this.cookie.delete(name, '/');
+    this.cookie.delete(name);
   }
 
   deleteAllCookies(): void {
-    this.cookie.deleteAll('/');
+    this.cookie.deleteAll();
   }
 }
