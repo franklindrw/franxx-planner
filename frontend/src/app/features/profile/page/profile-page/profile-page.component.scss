@@ -45,38 +45,6 @@
     max-width: 500px;
     margin-bottom: 0.8em;
   }
-
-  &__form {
-    width: 100%;
-    margin-top: 1em;
-    gap: 1.5em;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    margin: 0 auto;
-  }
-}
-
-.field {
-  display: block;
-  margin: 0.8em auto;
-  width: 100%;
-
-  &.email {
-    width: 80%;
-    margin: 0.8em auto;
-  }
-
-  &.group {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 80%;
-    gap: 0.5em;
-  }
 }
 
 .exclude-btn {
@@ -85,13 +53,5 @@
 
   &:hover {
     background-color: #530d01;
-  }
-}
-
-@media screen and (min-width: 540px) {
-  .field {
-    &.group {
-      flex-direction: row;
-    }
   }
 }

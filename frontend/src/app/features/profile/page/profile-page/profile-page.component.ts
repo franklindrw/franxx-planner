@@ -1,28 +1,32 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatError, MatInputModule } from '@angular/material/input';
+import { ChangePasswordComponent } from '@features/profile/components/change-password/change-password.component';
+import { UserFormComponent } from '@features/profile/components/user-form/user-form.component';
+import { ProfileService } from '@features/profile/services/profile.service';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ChangePasswordComponent } from '@features/profile/components/change-password/change-password.component';
 import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-profile-page',
   imports: [
     MatIconModule,
-    MatInputModule,
-    MatError,
-    MatFormFieldModule,
     MatButtonModule,
+    UserFormComponent,
   ],
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent implements OnInit, OnDestroy {
+  private readonly destroy$: Subject<void> = new Subject<void>();
+
   private readonly navigation = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
+  private readonly profileService = inject(ProfileService);
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
@@ -45,4 +49,8 @@ export class ProfilePageComponent implements OnInit {
     this.navigation.navigate(['/perfil/desinscreva-se']);
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

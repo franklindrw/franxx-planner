@@ -1,0 +1,39 @@
+:host {
+  width: 100%;
+  margin-top: 1em;
+  gap: 1.5em;
+}
+
+.field {
+  display: block;
+  margin: 0.8em auto;
+  width: 100%;
+
+  &.email {
+    width: 80%;
+    margin: 0.8em auto;
+  }
+
+  &.group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    gap: 0.5em;
+  }
+}
+
+.submit-btn {
+  width: 80%;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 540px) {
+  .field {
+    &.group {
+      flex-direction: row;
+    }
+  }
+}
