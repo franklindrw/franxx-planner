@@ -44,16 +44,26 @@ export class UsersService {
     return await this.usersRepo.findAll();
   }
 
-  async findById(id: number): Promise<User> {
+  async findById(id: number): Promise<Partial<User>> {
     if (!id) {
       throw new BadRequestException('User ID is required');
     }
 
-    const user = await this.usersRepo.findById(id);
+    const userData = await this.usersRepo.findById(id);
 
-    if (!user) {
+    if (!userData) {
       throw new NotFoundException('User not found');
     }
+
+    const user = {
+      id: userData.id,
+      email: userData.email,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      picture: userData.picture,
+      createdAt: userData.createdAt,
+      updatedAt: userData.updatedAt,
+    };
 
     return user;
   }
