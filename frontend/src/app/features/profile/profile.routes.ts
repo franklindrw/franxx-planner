@@ -5,13 +5,13 @@ import { ProfileService } from "./services/profile.service";
 
 export const PROFILE_ROUTES = [
   {
-    path: ':id',
-    component: ProfilePageComponent,
+    path: 'desinscreva-se',
+    component: UnsubscribePageComponent,
     providers: [UserUseCase, ProfileService]
   },
   {
-    path: 'desinscreva-se',
-    component: UnsubscribePageComponent,
+    path: ':id',
+    component: ProfilePageComponent,
     providers: [UserUseCase, ProfileService]
   }
 ]

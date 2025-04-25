@@ -18,8 +18,11 @@
   </p>
 
   <div class="buttons">
-    <button mat-flat-button>Mudei de ideia</button>
+    <button mat-flat-button (click)="goback()">Mudei de ideia</button>
 
-    <button mat-button>Excluir conta</button>
+    <button mat-button (click)="unsubscribe()">
+      <span *ngIf="!submitting">Excluir conta</span>
+      <mat-spinner *ngIf="submitting" diameter="16"></mat-spinner>
+    </button>
   </div>
 </div>

@@ -48,6 +48,7 @@ export class UserUseCase {
     return this.profileService.deleteProfile(this.user.id, this.token).pipe(
       tap(() => {
         this.userStore.clearUser();
+        this.cookieService.deleteAll();
       }),
       map(() => void 0)
     );

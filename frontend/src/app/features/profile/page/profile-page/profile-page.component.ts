@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { ChangePasswordComponent } from '@features/profile/components/change-password/change-password.component';
 import { UserFormComponent } from '@features/profile/components/user-form/user-form.component';
@@ -20,7 +20,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ProfilePageComponent {
   private readonly navigation = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
 
   back() {
@@ -36,6 +35,6 @@ export class ProfilePageComponent {
   }
 
   unsuscribe() {
-    this.navigation.navigate(['/perfil/desinscreva-se']);
+    this.navigation.navigate(['perfil/desinscreva-se']);
   }
 }
