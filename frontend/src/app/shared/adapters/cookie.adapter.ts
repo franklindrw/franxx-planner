@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { ICookiePort } from "@core/ports/cookie.port";
 
 import { CookieService as NgxCookieService } from 'ngx-cookie-service';
-import type { CookieOptions } from "../ports/cookie.port";
+import type { CookieOptions } from "@core/ports/cookie.port";
 
 @Injectable({
   providedIn: 'root'

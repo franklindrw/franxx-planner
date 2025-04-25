@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 
-import type { IHttpPort } from "../ports/http.port";
+import type { IHttpPort } from "@core/ports/http.port";
 import { environment } from "@env/environment";
 
 type HttpOptions = {
