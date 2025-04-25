@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import { HeaderComponent } from '@shared/components/header/header.component';
 
-import { environment } from '@env/environment';
-import { IUser } from '@core/models/interfaces/user/IUser';
 import { UserStore } from '@shared/stores/user.store';
 import { AuthUseCase } from '@core/use-cases/auth.use-case';
+
+import type { IUser } from '@core/models/interfaces/user/IUser';
 
 @Component({
   selector: 'app-home-page',

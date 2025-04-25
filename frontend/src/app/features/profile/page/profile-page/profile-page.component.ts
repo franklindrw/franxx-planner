@@ -1,6 +1,5 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
 
 import { ChangePasswordComponent } from '@features/profile/components/change-password/change-password.component';
 import { UserFormComponent } from '@features/profile/components/user-form/user-form.component';
@@ -19,17 +18,10 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
-export class ProfilePageComponent implements OnInit, OnDestroy {
-  private readonly destroy$: Subject<void> = new Subject<void>();
-
+export class ProfilePageComponent {
   private readonly navigation = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
-
-  ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id');
-    console.log(userId);
-  }
 
   back() {
     this.navigation.navigate(['/home']);
@@ -45,10 +37,5 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
 
   unsuscribe() {
     this.navigation.navigate(['/perfil/desinscreva-se']);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

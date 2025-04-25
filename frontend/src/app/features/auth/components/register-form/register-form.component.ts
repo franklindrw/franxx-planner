@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 
@@ -15,6 +15,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import { ToastService } from '@shared/services/toast.service';
 import { Router } from '@angular/router';
+import { UserUseCase } from '@core/use-cases/user.use-case';
 
 @Component({
   selector: 'app-register-form',
@@ -31,26 +32,21 @@ import { Router } from '@angular/router';
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
 })
-export class RegisterFormComponent implements OnInit, OnDestroy {
-  private readonly destroy$: Subject<void> = new Subject<void>();
+export class RegisterFormComponent implements OnInit {
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly userUseCase = inject(UserUseCase);
+  private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
+
   registerForm!: FormGroup;
   submitted = false;
   hide = signal(true);
 
-/**
- * Captura o clique no botão de visibilidade da senha
- */
+  /** Captura o clique no botão de visibilidade da senha */
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private toastService: ToastService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -62,20 +58,14 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  get f() {
-    return this.registerForm.controls;
-  }
-
-  getPasswordVerify() {
+  private getPasswordVerify() {
     return this.registerForm.get('confirmPassword')?.value === this.registerForm.get('password')?.value;
   }
 
   onSubmit() {
-    this.submitted = true;
+    if (this.registerForm.invalid) return;
 
-    if (this.registerForm.invalid) {
-      return;
-    }
+    this.submitted = true;
 
     if (!this.getPasswordVerify()) {
       this.registerForm.get('confirmPassword')?.setErrors({ notMatching: true });
@@ -89,10 +79,9 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
       password: this.registerForm.get('password')?.value,
     }
 
-    this.authService.register(data)
-      .pipe(takeUntil(this.destroy$))
+    this.userUseCase.createUser(data)
       .subscribe({
-        next: (res) => {
+        next: () => {
           this.toastService.open({
             title: 'Sucesso!',
             desc: 'Conta criada com sucesso',
@@ -109,14 +98,6 @@ export class RegisterFormComponent implements OnInit, OnDestroy {
           })
           this.submitted = false;
         },
-        complete: () => {
-          this.submitted = false;
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+      })
   }
 }

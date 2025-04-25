@@ -4,6 +4,13 @@ import { ICookiePort } from "@core/ports/cookie.port";
 import { CookieService as NgxCookieService } from 'ngx-cookie-service';
 import type { CookieOptions } from "@core/ports/cookie.port";
 
+/**
+ * Cookie adapter para o ngx-cookie-service
+ * @method get - Retorna o cookie
+ * @method set - Define o cookie
+ * @method check - Verifica se o cookie existe
+ */
+
 @Injectable({
   providedIn: 'root'
 })

@@ -4,13 +4,13 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ToastService } from '@shared/services/toast.service';
+import { AuthUseCase } from '@core/use-cases/auth.use-case';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { AuthUseCase } from '@core/use-cases/auth.use-case';
 
 @Component({
   selector: 'app-login-form',
@@ -64,8 +64,9 @@ export class LoginFormComponent implements OnInit {
       .subscribe({
         next: () => this.router.navigate([this.redirect]),
         error: (err) => {
+          console.error(err);
           this.toastService.open({
-            title: 'Ops! ocorreu um erro',
+            title: 'Ops! ocorreu um erro!',
             desc: err.error?.message || 'Erro desconhecido',
             type: 'error',
           });

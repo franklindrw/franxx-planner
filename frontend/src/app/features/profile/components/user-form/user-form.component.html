@@ -1,42 +1,71 @@
-<div class="field group">
-  <mat-form-field class="field firstName">
-    <mat-label>Nome</mat-label>
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <div class="field group">
+    <mat-form-field class="field firstName">
+      <mat-label>Nome</mat-label>
+      <input
+        formControlName="first_name"
+        placeholder="Digite seu nome"
+        matInput
+        type="text"
+      />
+      <mat-error
+        *ngIf="editForm.get('first_name')?.hasError('required')"
+        class="form__error"
+      >
+        Nome é obrigatório
+      </mat-error>
+
+      <mat-error
+        *ngIf="editForm.get('first_name')?.hasError('minlength')"
+        class="form__error"
+      >
+        Nome deve ter no mínimo 3 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="field lastName">
+      <mat-label>Sobrenome</mat-label>
+      <input
+        formControlName="last_name"
+        placeholder="Digite seu nome"
+        matInput
+        type="text"
+      />
+      <mat-error
+        *ngIf="editForm.get('last_name')?.hasError('required')"
+        class="form__error"
+      >
+        Sobrenome é obrigatório
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="field email">
+    <mat-label>E-mail</mat-label>
     <input
-      [defaultValue]="'Franklin'"
-      formControlName="first_name"
-      placeholder="Digite seu nome"
       matInput
-      type="text"
+      placeholder="Digite seu e-mail"
+      formControlName="email"
+      type="email"
     />
+    <mat-error
+      *ngIf="editForm.get('email')?.hasError('required')"
+      class="form__error"
+    >
+      E-mail é obrigatório
+    </mat-error>
+    <mat-error
+      *ngIf="editForm.get('email')?.hasError('email')"
+      class="form__error"
+    >
+      E-mail inválido
+    </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="field lastName">
-    <mat-label>Sobrenome</mat-label>
-    <input
-      [defaultValue]="'Campos'"
-      formControlName="last_name"
-      placeholder="Digite seu nome"
-      matInput
-      type="text"
-    />
-  </mat-form-field>
-</div>
-
-<mat-form-field class="field email">
-  <mat-label>E-mail</mat-label>
-  <input
-    matInput
-    placeholder="Digite seu e-mail"
-    formControlName="email"
-    [defaultValue]="'franklin@email.com'"
-  />
-  <mat-error class="form__error"> E-mail é obrigatório </mat-error>
-  <mat-error class="form__error"> E-mail inválido </mat-error>
-</mat-form-field>
-
-<div class="submit-btn">
-  <button mat-flat-button>
-    <mat-icon>save</mat-icon>
-    Salvar
-  </button>
-</div>
+  <div class="submit-btn">
+    <button mat-flat-button>
+      <mat-icon>save</mat-icon>
+      Salvar
+    </button>
+  </div>
+</form>

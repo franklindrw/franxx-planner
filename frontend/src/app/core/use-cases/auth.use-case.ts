@@ -15,9 +15,7 @@ const { TOKEN_KEY } = environment;
  * Use case para gerenciar a autenticação do usuário.
  * Encapsula a lógica de autenticação e armazeza os dados do usuário no store..
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthUseCase {
   private readonly authService = inject(AuthService);
   private readonly profileService = inject(ProfileService);

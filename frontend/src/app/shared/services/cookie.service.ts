@@ -1,6 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { COOKIE_PORT, type CookieOptions, type ICookiePort } from '@core/ports/cookie.port';
 
+/**
+ * Serviço para gerenciamento de cookies
+ * @method setCookie - Define um cookie
+ * @method getCookie - Retorna um cookie
+ * @method checkCookie - Verifica se um cookie existe
+ * @method deleteCookie - Remove um cookie
+ * @method deleteAllCookies - Remove todos os cookies
+ */
+
 @Injectable({
   providedIn: 'root'
 })

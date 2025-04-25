@@ -11,6 +11,16 @@ type HttpOptions = {
   signal?: AbortSignal;
 };
 
+/**
+ * Adapter para implementação do HttpClient nativo do angular
+ * não é necessário por ser nativo do angular, feito apenas para estudo
+ * @method get
+ * @method post
+ * @method put
+ * @method patch
+ * @method delete
+ */
+
 @Injectable({
   providedIn: 'root'
 })
