@@ -1,4 +1,4 @@
-import { computed, inject, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 
 import type { IUser } from "@core/models/interfaces/user/IUser";
 import { COOKIE_PORT } from "@core/ports/cookie.port";
@@ -14,6 +14,10 @@ const USER_KEY = environment.TOKEN_USER;
  * @method isLoggedIn - Verifica se o usuário está logado.
  * @method clearUser - Limpa os dados do usuário logado.
  */
+
+@Injectable({
+  providedIn: 'root',
+})
 export class UserStore {
   private readonly cookieService = inject(COOKIE_PORT);
 
@@ -44,6 +48,7 @@ export class UserStore {
 
   clearUser() {
     this._user.set(null);
+    this.cookieService.delete(USER_KEY);
   }
 
   private getUserFromCookie(): IUser | null {

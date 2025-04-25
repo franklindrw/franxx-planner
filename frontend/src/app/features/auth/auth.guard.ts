@@ -1,17 +1,14 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { environment } from '@env/environment';
-import { CookieService } from '@shared/services/cookie.service';
 import { ToastService } from '@shared/services/toast.service';
+import { UserStore } from '@shared/stores/user.store';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const cookieService = inject(CookieService);
+  const userStore = inject(UserStore);
   const router = inject(Router);
   const toast = inject(ToastService);
 
-  const TOKEN_KEY: string = environment.TOKEN_KEY;
-
-  const isLoggedIn = cookieService.checkCookie(TOKEN_KEY);
+  const isLoggedIn = userStore.isLoggedIn();
 
   if (isLoggedIn) {
     return true;

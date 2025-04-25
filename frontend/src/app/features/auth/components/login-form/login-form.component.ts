@@ -1,10 +1,8 @@
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from '@features/auth/services/auth.service';
 import { ToastService } from '@shared/services/toast.service';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,10 +10,7 @@ import { MatError, MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { CookieService } from 'ngx-cookie-service';
-import { environment } from '@env/environment';
-
-const { TOKEN_KEY, TOKEN_USER } = environment;
+import { AuthUseCase } from '@core/use-cases/auth.use-case';
 
 @Component({
   selector: 'app-login-form',
@@ -32,12 +27,10 @@ const { TOKEN_KEY, TOKEN_USER } = environment;
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
-  private readonly destroy$: Subject<void> = new Subject<void>();
+export class LoginFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
+  private readonly authUseCase = inject(AuthUseCase);
   private readonly toastService = inject(ToastService);
-  private readonly cookieService = inject(CookieService);
   private readonly router = inject(Router);
 
   loginForm!: FormGroup;
@@ -62,38 +55,22 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    if (this.loginForm.invalid) return;
+
     this.submitting = true;
+    const { email, password } = this.loginForm.value;
 
-    if (this.loginForm.invalid) {
-      return;
-    }
-
-    const data = {
-      email: this.loginForm.get('email')!.value,
-      password: this.loginForm.get('password')!.value
-    }
-
-    this.authService.login(data.email, data.password)
-      .pipe(takeUntil(this.destroy$))
+    this.authUseCase.login(email, password)
       .subscribe({
-        next: (res) => {
-          this.cookieService.set(TOKEN_KEY, res.access_token);
-          this.cookieService.set(TOKEN_USER, JSON.stringify(res.user));
-          this.router.navigate([this.redirect]);
-        },
+        next: () => this.router.navigate([this.redirect]),
         error: (err) => {
           this.toastService.open({
             title: 'Ops! ocorreu um erro',
-            desc: err.error.message,
-            type: 'error'
-          })
+            desc: err.error?.message || 'Erro desconhecido',
+            type: 'error',
+          });
           this.submitting = false;
-        },
+        }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

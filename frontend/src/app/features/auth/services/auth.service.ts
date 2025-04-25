@@ -7,7 +7,9 @@ import type { ICreateUser } from '../models/ICreateUser';
 import type { IUser } from '@core/models/interfaces/user/IUser';
 import type { IAuthResp } from '../models/IAuth';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   private readonly http = inject<IHttpPort>(HTTP_PORT);

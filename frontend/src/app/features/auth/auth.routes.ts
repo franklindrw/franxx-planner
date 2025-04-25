@@ -12,11 +12,9 @@ export const AUTH_ROUTES: Routes = [
   {
     path: 'entrar',
     component: LoginPageComponent,
-    providers: [AuthService],
   },
   {
     path: 'cadastre-se',
     component: RegisterPageComponent,
-    providers: [AuthService],
   }
 ]

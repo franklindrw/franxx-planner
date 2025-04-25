@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HeaderComponent {
   @Input({  required: true }) username!: string;
-  @Input({  required: true }) userId!: string;
+  @Input({  required: true }) userId!: number;
 
   @Output() logout = new EventEmitter<void>();
 

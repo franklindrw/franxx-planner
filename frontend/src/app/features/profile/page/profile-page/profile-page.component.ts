@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 
 import { ChangePasswordComponent } from '@features/profile/components/change-password/change-password.component';
 import { UserFormComponent } from '@features/profile/components/user-form/user-form.component';
-import { ProfileService } from '@features/profile/services/profile.service';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,7 +25,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
   private readonly navigation = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
-  private readonly profileService = inject(ProfileService);
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');

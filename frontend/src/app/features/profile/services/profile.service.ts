@@ -12,15 +12,27 @@ import type { IEditUser } from '@core/models/interfaces/user/IEditUser';
 export class ProfileService {
   private readonly http = inject<IHttpPort>(HTTP_PORT);
 
-  getProfile(userId: string): Observable<IUser> {
-    return from(this.http.get<IUser>(`/users/${userId}`));
+  getProfile(userId: string, token: string): Observable<IUser> {
+    return from(this.http.get<IUser>(`/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }));
   }
 
-  updateProfile(userId: string, body: Partial<IEditUser>): Observable<IUser> {
-    return from(this.http.put<IUser>(`/users/${userId}`, body));
+  updateProfile(userId: string, body: Partial<IEditUser>, token: string): Observable<IUser> {
+    return from(this.http.put<IUser>(`/users/${userId}`, body, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }));
   }
 
-  deleteProfile(userId: string) {
-    return from(this.http.delete<void>(`/users/${userId}`));
+  deleteProfile(userId: string, token: string): Observable<void> {
+    return from(this.http.delete<void>(`/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }));
   }
 }
