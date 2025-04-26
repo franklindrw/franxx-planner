@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatInputModule } from '@angular/material/input';
 
 import type { IUser } from '@core/models/interfaces/user/IUser';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { UserUseCase } from '@core/use-cases/user.use-case';
 import { ToastService } from '@shared/services/toast.service';
@@ -52,7 +52,6 @@ export class UserFormComponent implements OnInit {
   onSubmit() {
     if (this.editForm.invalid) return;
 
-    // console.log(this.editForm.value);
     this.submitting = true;
 
     const data = this.editForm.value;
