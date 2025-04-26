@@ -9,11 +9,11 @@
           formControlName="first_name"
           aria-label="Nome"
         />
-        @if(registerForm.get('first_name')?.hasError('required')) {
-        <mat-error class="form__error"> Nome é obrigatório </mat-error>}
-        @if(registerForm.get('first_name')?.hasError('minlength')) {
-        <mat-error> Nome deve ter no mínimo 3 caracteres </mat-error>
-        }
+        <mat-error
+          *ngIf="errorMessage(registerForm.get('first_name')) as error"
+        >
+          {{ error }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="form__control">
@@ -24,11 +24,9 @@
           formControlName="last_name"
           aria-label="Sobrenome"
         />
-        @if(registerForm.get('last_name')?.hasError('required')) {
-        <mat-error class="form__error"> Sobrenome é obrigatório </mat-error>}
-        @if(registerForm.get('last_name')?.hasError('minlength')) {
-        <mat-error> Sobrenome deve ter no mínimo 3 caracteres </mat-error>
-        }
+        <mat-error *ngIf="errorMessage(registerForm.get('last_name')) as error">
+          {{ error }}
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -40,10 +38,9 @@
         formControlName="email"
         aria-label="E-mail"
       />
-      @if(registerForm.get('email')?.hasError('required')) {
-      <mat-error class="form__error"> E-mail é obrigatório </mat-error>}
-      @if(registerForm.get('email')?.hasError('email')) {
-      <mat-error class="form__error"> E-mail inválido </mat-error>}
+      <mat-error *ngIf="errorMessage(registerForm.get('email')) as error">
+        {{ error }}
+      </mat-error>
     </mat-form-field>
 
     <div class="form__group">
@@ -67,11 +64,9 @@
         >
           <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        @if(registerForm.get('password')?.hasError('required')) {
-        <mat-error class="form__error"> Senha é obrigatória </mat-error>}
-        @if(registerForm.get('password')?.hasError('minlength')) {
-        <mat-error class="form__error"> Mínimo 6 caracteres </mat-error>
-        }
+        <mat-error *ngIf="errorMessage(registerForm.get('password')) as error">
+          {{ error }}
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field class="form__control">
@@ -83,10 +78,11 @@
           type="password"
           aria-label="Confirmação de senha"
         />
-        @if(registerForm.get('confirmPassword')?.hasError('required')) {
-        <mat-error class="form__error">Confirmação é obrigatória</mat-error>}
-        @if (registerForm.get('confirmPassword')?.hasError('minlength')) {
-        <mat-error class="form__error"> Mínimo 6 caracteres </mat-error>}
+        <mat-error
+          *ngIf="errorMessage(registerForm.get('confirmPassword')) as error"
+        >
+          {{ error }}
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -95,7 +91,7 @@
         mat-flat-button
         type="submit"
         [disabled]="!this.registerForm.valid || submitted"
-        class="form__button"
+        class="submit-btn"
       >
         <span *ngIf="!submitted">Cadastrar</span>
         <mat-spinner *ngIf="submitted" diameter="20"></mat-spinner>

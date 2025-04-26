@@ -8,18 +8,8 @@
         matInput
         type="text"
       />
-      <mat-error
-        *ngIf="editForm.get('first_name')?.hasError('required')"
-        class="form__error"
-      >
-        Nome é obrigatório
-      </mat-error>
-
-      <mat-error
-        *ngIf="editForm.get('first_name')?.hasError('minlength')"
-        class="form__error"
-      >
-        Nome deve ter no mínimo 3 caracteres
+      <mat-error *ngIf="errorMessage(editForm.get('first_name')) as error">
+        {{ error }}
       </mat-error>
     </mat-form-field>
 
@@ -31,11 +21,8 @@
         matInput
         type="text"
       />
-      <mat-error
-        *ngIf="editForm.get('last_name')?.hasError('required')"
-        class="form__error"
-      >
-        Sobrenome é obrigatório
+      <mat-error *ngIf="errorMessage(editForm.get('last_name')) as error">
+        {{ error }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -48,17 +35,8 @@
       formControlName="email"
       type="email"
     />
-    <mat-error
-      *ngIf="editForm.get('email')?.hasError('required')"
-      class="form__error"
-    >
-      E-mail é obrigatório
-    </mat-error>
-    <mat-error
-      *ngIf="editForm.get('email')?.hasError('email')"
-      class="form__error"
-    >
-      E-mail inválido
+    <mat-error *ngIf="errorMessage(editForm.get('email')) as error">
+      {{ error }}
     </mat-error>
   </mat-form-field>
 

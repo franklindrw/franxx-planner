@@ -1,0 +1,31 @@
+<ng-container [ngSwitch]="variant">
+  <button
+    *ngSwitchCase="'basic'"
+    mat-button
+    [type]="buttonType"
+    [disabled]="isDisabled"
+    [class]="customClass"
+    [attr.aria-label]="ariaLabel"
+  >
+    <span *ngIf="!isLoading">
+      <mat-icon *ngIf="icon" [fontIcon]="icon" />
+      {{ text }}
+    </span>
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+  </button>
+
+  <button
+    *ngSwitchCase="'flat'"
+    mat-flat-button
+    [type]="buttonType"
+    [disabled]="isDisabled"
+    [class]="customClass"
+    [attr.aria-label]="ariaLabel"
+  >
+    <span *ngIf="!isLoading">
+      <mat-icon *ngIf="icon" [fontIcon]="icon" />
+      {{ text }}
+    </span>
+    <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+  </button>
+</ng-container>

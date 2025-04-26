@@ -1,33 +1,31 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { UserUseCase } from '@core/use-cases/user.use-case';
+import { ToastService } from '@shared/services/toast.service';
+import { formErrorMessage } from '@shared/utils/formErrorMessage';
 
-import { AuthService } from '@features/auth/services/auth.service';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatError } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
-import { ToastService } from '@shared/services/toast.service';
-import { Router } from '@angular/router';
-import { UserUseCase } from '@core/use-cases/user.use-case';
 
 @Component({
   selector: 'app-register-form',
   imports: [
+    NgIf,
+    ReactiveFormsModule,
+
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatError,
-    ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    NgIf,
   ],
   templateUrl: './register-form.component.html',
   styleUrl: './register-form.component.scss',
@@ -41,6 +39,7 @@ export class RegisterFormComponent implements OnInit {
   registerForm!: FormGroup;
   submitted = false;
   hide = signal(true);
+  errorMessage = formErrorMessage;
 
   /** Captura o clique no botão de visibilidade da senha */
   clickEvent(event: MouseEvent) {

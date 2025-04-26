@@ -12,6 +12,7 @@ import { FormBuilder, type FormGroup, ReactiveFormsModule, Validators } from '@a
 import { NgIf } from '@angular/common';
 import { UserUseCase } from '@core/use-cases/user.use-case';
 import { ToastService } from '@shared/services/toast.service';
+import { formErrorMessage } from '@shared/utils/formErrorMessage';
 
 @Component({
   selector: 'user-form',
@@ -36,6 +37,7 @@ export class UserFormComponent implements OnInit {
   user: IUser = this.userStore.user()!
   editForm!: FormGroup;
   submitting = false;
+  errorMessage = formErrorMessage;
 
   ngOnInit() {
     this.editForm = this.formBuilder.group({

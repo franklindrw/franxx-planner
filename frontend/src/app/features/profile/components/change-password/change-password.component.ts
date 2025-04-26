@@ -16,6 +16,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import type { IUpdatePassword } from '@features/profile/interfaces/i-update-password';
 import { formErrorMessage } from '@shared/utils/formErrorMessage';
+import { CustomButtonComponent } from '@shared/components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-change-password',
@@ -32,8 +33,9 @@ import { formErrorMessage } from '@shared/utils/formErrorMessage';
     MatIconButton,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinner,
     MatError,
+
+    CustomButtonComponent,
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss'

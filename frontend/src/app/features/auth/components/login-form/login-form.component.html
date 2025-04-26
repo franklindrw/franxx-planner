@@ -2,17 +2,8 @@
   <mat-form-field>
     <mat-label>E-mail</mat-label>
     <input matInput placeholder="Digite seu e-mail" formControlName="email" />
-    <mat-error
-      class="form__error"
-      *ngIf="loginForm.get('email')?.hasError('required')"
-    >
-      E-mail é obrigatório
-    </mat-error>
-    <mat-error
-      class="form__error"
-      *ngIf="loginForm.get('email')?.hasError('email')"
-    >
-      E-mail inválido
+    <mat-error *ngIf="errorMessage(loginForm.get('email')) as error">
+      {{ error }}
     </mat-error>
   </mat-form-field>
 
@@ -36,11 +27,8 @@
     >
       <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
-    <mat-error
-      class="form__error"
-      *ngIf="loginForm.get('password')?.hasError('required')"
-    >
-      Senha é obrigatória
+    <mat-error *ngIf="errorMessage(loginForm.get('password')) as error">
+      {{ error }}
     </mat-error>
   </mat-form-field>
 

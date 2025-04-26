@@ -11,6 +11,7 @@ import { MatError, MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { formErrorMessage } from '@shared/utils/formErrorMessage';
 
 @Component({
   selector: 'app-login-form',
@@ -36,6 +37,7 @@ export class LoginFormComponent implements OnInit {
   loginForm!: FormGroup;
   submitting = false;
   hide = signal(true);
+  errorMessage = formErrorMessage;
 
   redirect = this.router.routerState.snapshot.root.queryParams['redirectTo'] || '/home';
 
