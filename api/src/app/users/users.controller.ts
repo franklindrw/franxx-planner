@@ -12,11 +12,15 @@ import {
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
+
 import { UsersService } from './users.service';
+
+import { User } from './entities/user.entity';
 import { UserCreateDto } from './dto/user-create.dto';
 import { UserUpdateDto } from './dto/user-update.dto';
-import { ApiBearerAuth, ApiBody, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
+import { UpdatePassDto } from './dto/update-pass.dto';
+
 import { AuthGuard } from 'src/app/auth/auth.guard';
 
 @Controller('users')
@@ -67,6 +71,23 @@ export class UsersController {
     @Body() updateUserDto: UserUpdateDto,
   ) {
     return this.usersService.update(+id, updateUserDto);
+  }
+
+  @Patch(':id/password')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(200)
+  @ApiParam({ name: 'id', type: Number })
+  @ApiResponse({ status: 200, description: 'Password updated' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBody({ type: UpdatePassDto })
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  updatePassword(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() UpdatePassDto: UpdatePassDto,
+  ) {
+    return this.usersService.updatePassword(+id, UpdatePassDto);
   }
 
   @Delete(':id')

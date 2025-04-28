@@ -50,6 +50,15 @@ export class UsersRepository {
     });
   }
 
+  async updatePassword(id: number, password: string): Promise<User> {
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        password,
+      },
+    });
+  }
+
   async remove(id: number): Promise<User> {
     return this.prisma.user.delete({
       where: { id },
