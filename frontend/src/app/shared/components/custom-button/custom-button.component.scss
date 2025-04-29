@@ -1,3 +1,6 @@
+@use "mixins" as *;
+@use "variables" as *;
+
 span {
   display: flex;
   justify-content: center;
@@ -8,4 +11,8 @@ span {
 mat-icon {
   font-size: 1.2em;
   margin-top: 0.5em;
+}
+
+.btn-danger {
+  @include danger-btn;
 }

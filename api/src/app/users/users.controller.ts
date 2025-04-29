@@ -78,9 +78,9 @@ export class UsersController {
   @ApiBearerAuth()
   @HttpCode(200)
   @ApiParam({ name: 'id', type: Number })
-  @ApiResponse({ status: 200, description: 'Password updated' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({ status: 200, description: 'Senha atualizada com sucesso' })
+  @ApiResponse({ status: 404, description: 'Usuário não encontrado' })
+  @ApiResponse({ status: 401, description: 'Senha atual está incorreta' })
   @ApiBody({ type: UpdatePassDto })
   @UsePipes(new ValidationPipe({ whitelist: true }))
   updatePassword(

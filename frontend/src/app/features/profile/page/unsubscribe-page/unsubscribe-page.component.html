@@ -20,9 +20,12 @@
   <div class="buttons">
     <button mat-flat-button (click)="goback()">Mudei de ideia</button>
 
-    <button mat-button (click)="unsubscribe()">
-      <span *ngIf="!submitting">Excluir conta</span>
-      <mat-spinner *ngIf="submitting" diameter="16"></mat-spinner>
-    </button>
+    <custom-button
+      text="Excluir conta"
+      [isLoading]="submitting"
+      (click)="unsubscribe()"
+      [isDisabled]="submitting"
+      customClass="btn-danger"
+    />
   </div>
 </div>

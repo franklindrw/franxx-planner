@@ -43,8 +43,8 @@ export class ProfileService {
     }));
   }
 
-  updatePass(userId: number, body: Omit<IUpdatePassword, 'confirm_pass'>, token: string): Observable<IUser> {
-    return from(this.http.patch<IUser>(`/users/${userId}/password`, body, {
+  updatePass(userId: number, body: Omit<IUpdatePassword, 'confirm_pass'>, token: string): Observable<string> {
+    return from(this.http.patch<string>(`/users/${userId}/password`, body, {
       headers: {
         Authorization: `Bearer ${token}`
       }

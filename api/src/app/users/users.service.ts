@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
@@ -112,13 +113,13 @@ export class UsersService {
   async updatePassword(
     id: number,
     UpdatePassDto: UpdatePassDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     const { current_pass, new_pass } = UpdatePassDto;
 
     /** busca os dados do usuário  */
     const user = await this.usersRepo.findById(id);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     /** verifica se a senha atual está correta  */
@@ -127,14 +128,14 @@ export class UsersService {
       current_pass,
     );
     if (!isPasswordValid) {
-      throw new BadRequestException('Current password is incorrect');
+      throw new UnauthorizedException('Senha atual está incorreta');
     }
 
     /** cryptografa e envia a nova senha para atualizar */
     const hashedPassword = await this.cryptoService.hashPassword(new_pass);
     await this.usersRepo.updatePassword(id, hashedPassword);
 
-    return 'Senha atualizada com sucesso!';
+    return { message: 'Senha atualizada com sucesso' };
   }
 
   async remove(id: number) {

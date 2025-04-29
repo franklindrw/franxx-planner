@@ -12,11 +12,13 @@ import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatInputModule } from '@angular/material/input';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
-import type { IUpdatePassword } from '@features/profile/interfaces/i-update-password';
+import { UserUseCase } from '@core/use-cases/user.use-case';
 import { formErrorMessage } from '@shared/utils/formErrorMessage';
 import { CustomButtonComponent } from '@shared/components/custom-button/custom-button.component';
+import { ToastService } from '@shared/services/toast.service';
+
+import type { IUpdatePassword } from '@features/profile/interfaces/i-update-password';
 
 @Component({
   selector: 'app-change-password',
@@ -37,12 +39,15 @@ import { CustomButtonComponent } from '@shared/components/custom-button/custom-b
 
     CustomButtonComponent,
   ],
+  providers: [UserUseCase],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss'
 })
 
 export class ChangePasswordComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly userUseCase = inject(UserUseCase);
+  private readonly toastService = inject(ToastService);
 
   submitting = false;
   hidePassword = signal(true);
@@ -82,6 +87,26 @@ export class ChangePasswordComponent implements OnInit {
 
     this.submitting = true;
 
-    console.log(this.formPassword.value);
+    this.userUseCase.updateUserPassword(this.formPassword.value)
+      .subscribe({
+        next: () => {
+          this.submitting = false;
+          this.toastService.open({
+            title: 'Sucesso',
+            desc: 'Senha alterada com sucesso',
+            type: 'success',
+          });
+          this.formPassword.reset();
+        }
+        , error: (error) => {
+          console.error(error);
+          this.submitting = false;
+          this.toastService.open({
+            title: 'Ops! ocorreu um erro!',
+            desc: error.error?.message || 'Não foi possível alterar a senha, tente novamente.',
+            type: 'error'
+          })
+        }
+      })
   }
 }

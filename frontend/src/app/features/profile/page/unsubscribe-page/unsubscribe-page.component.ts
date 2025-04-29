@@ -8,14 +8,15 @@ import { ToastService } from '@shared/services/toast.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { CustomButtonComponent } from '@shared/components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-unsubscribe-page',
   imports: [
+    CustomButtonComponent,
+
     MatButtonModule,
-    MatProgressSpinner,
     MatIcon,
-    NgIf,
   ],
   templateUrl: './unsubscribe-page.component.html',
   styleUrl: './unsubscribe-page.component.scss'

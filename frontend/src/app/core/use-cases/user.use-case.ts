@@ -9,6 +9,7 @@ import { COOKIE_PORT } from "@core/ports/cookie.port";
 
 import type { IEditUser } from "@core/models/interfaces/user/IEditUser";
 import type { ICreateUser } from "@features/auth/models/ICreateUser";
+import type { IUpdatePassword } from "@features/profile/interfaces/i-update-password";
 
 const { TOKEN_KEY } = environment;
 
@@ -42,6 +43,14 @@ export class UserUseCase {
       }),
       map(() => void 0)
     );
+  }
+
+  updateUserPassword(data: IUpdatePassword) {
+    const { current_pass, new_pass } = data;
+    return this.profileService.updatePass(this.user.id, { current_pass, new_pass }, this.token)
+      .pipe(
+        map(() => void 0)
+      );
   }
 
   deleteUserAccount() {
