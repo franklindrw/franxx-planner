@@ -14,14 +14,90 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
-  id            Int   @id @default(autoincrement())
-  email         String   @unique
+enum EventUserRole {
+  ORGANIZER
+  PARTICIPANT
+}
+
+enum EventUserStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Users {
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
   first_name    String
   last_name     String
   password      String?
   picture       String?
-  google_id     String? @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  google_id     String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("USERS")
+  @@index([email], name: "idx_users_email")
+  @@index([google_id], name: "idx_users_google_id")
+
+  EventsUsers EventsUsers[]
+  EventComments EventComments[]
+}
+
+model Events {
+  id                Int         @id @default(autoincrement())
+  title             String
+  description       String?
+  date              DateTime?
+  time_in_seconds   Int
+  address           String?
+
+  @@map("EVENTS")
+
+  EventsUsers EventsUsers[]
+  EventLinks EventLinks[]
+  EventComments EventComments[]
+}
+
+model EventsUsers {
+  id                Int               @id @default(autoincrement())
+  event             Events            @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event_id          Int
+  user              Users              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id           Int
+  role              EventUserRole
+  status            EventUserStatus   @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  @@map("EVENTS_USERS")
+  @@index([event_id], name: "idx_events_users_event_id")
+  @@index([user_id], name: "idx_events_users_user_id")
+}
+
+model EventLinks {
+  id                Int         @id @default(autoincrement())
+  event_id          Int
+  link              String
+  event             Events      @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@map("EVENT_LINKS")
+  @@index([event_id], name: "idx_event_links_event_id")
+}
+
+model EventComments {
+  id                Int         @id @default(autoincrement())
+  event             Events      @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event_id          Int
+  user              Users?      @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user_id           Int?
+  comment           String
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@map("EVENT_COMMENTS")
+  @@index([event_id], name: "idx_event_comments_event_id")
+  @@index([user_id], name: "idx_event_comments_user_id")
 }
