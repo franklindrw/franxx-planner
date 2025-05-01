@@ -46,11 +46,13 @@ model Users {
 
 model Events {
   id                Int         @id @default(autoincrement())
-  title             String
+  title             String      @db.VarChar(100)
   description       String?
   date              DateTime?
   time_in_seconds   Int
-  address           String?
+  address           String?     @db.VarChar(100)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 
   @@map("EVENTS")
 
@@ -78,7 +80,8 @@ model EventsUsers {
 model EventLinks {
   id                Int         @id @default(autoincrement())
   event_id          Int
-  link              String
+  title             String      @db.VarChar(100)
+  link              String      @db.VarChar(250)
   event             Events      @relation(fields: [event_id], references: [id], onDelete: Cascade)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
