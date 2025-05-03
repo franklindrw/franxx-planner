@@ -12,7 +12,7 @@ export class UsersRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: UserCreateDto) {
-    return this.prisma.user.create({
+    return await this.prisma.user.create({
       data: {
         ...createUserDto,
       },
@@ -20,29 +20,29 @@ export class UsersRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { email },
     });
   }
 
   async findByGoogleId(google_id: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { google_id },
     });
   }
 
   async findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    return await this.prisma.user.findMany();
   }
 
   async findById(id: number): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return await this.prisma.user.findUnique({
       where: { id },
     });
   }
 
   async update(id: number, updateUserDto: UserUpdateDto): Promise<User> {
-    return this.prisma.user.update({
+    return await this.prisma.user.update({
       where: { id },
       data: {
         ...updateUserDto,
@@ -51,7 +51,7 @@ export class UsersRepository {
   }
 
   async updatePassword(id: number, password: string): Promise<User> {
-    return this.prisma.user.update({
+    return await this.prisma.user.update({
       where: { id },
       data: {
         password,
@@ -60,7 +60,7 @@ export class UsersRepository {
   }
 
   async remove(id: number): Promise<User> {
-    return this.prisma.user.delete({
+    return await this.prisma.user.delete({
       where: { id },
     });
   }

@@ -25,7 +25,7 @@ enum EventUserStatus {
   REJECTED
 }
 
-model Users {
+model User {
   id            Int       @id @default(autoincrement())
   email         String    @unique
   first_name    String
@@ -41,15 +41,15 @@ model Users {
   @@index([google_id], name: "idx_users_google_id")
 
   EventsUsers EventsUsers[]
-  EventComments EventComments[]
+  EventComments EventComment[]
 }
 
-model Events {
+model Event {
   id                Int         @id @default(autoincrement())
   title             String      @db.VarChar(100)
   description       String?
   date              DateTime?
-  time_in_seconds   Int
+  time              String?     @db.VarChar(10)
   address           String?     @db.VarChar(100)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
@@ -57,15 +57,15 @@ model Events {
   @@map("EVENTS")
 
   EventsUsers EventsUsers[]
-  EventLinks EventLinks[]
-  EventComments EventComments[]
+  EventLinks EventLink[]
+  EventComments EventComment[]
 }
 
 model EventsUsers {
   id                Int               @id @default(autoincrement())
-  event             Events            @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event             Event            @relation(fields: [event_id], references: [id], onDelete: Cascade)
   event_id          Int
-  user              Users              @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user              User              @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id           Int
   role              EventUserRole
   status            EventUserStatus   @default(PENDING)
@@ -77,12 +77,12 @@ model EventsUsers {
   @@index([user_id], name: "idx_events_users_user_id")
 }
 
-model EventLinks {
+model EventLink {
   id                Int         @id @default(autoincrement())
   event_id          Int
   title             String      @db.VarChar(100)
   link              String      @db.VarChar(250)
-  event             Events      @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event             Event      @relation(fields: [event_id], references: [id], onDelete: Cascade)
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
 
@@ -90,11 +90,11 @@ model EventLinks {
   @@index([event_id], name: "idx_event_links_event_id")
 }
 
-model EventComments {
+model EventComment {
   id                Int         @id @default(autoincrement())
-  event             Events      @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event             Event      @relation(fields: [event_id], references: [id], onDelete: Cascade)
   event_id          Int
-  user              Users?      @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user              User?      @relation(fields: [user_id], references: [id], onDelete: SetNull)
   user_id           Int?
   comment           String
   createdAt         DateTime    @default(now())
