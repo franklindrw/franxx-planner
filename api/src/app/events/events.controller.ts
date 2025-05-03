@@ -8,14 +8,17 @@ import {
   Delete,
   UseGuards,
   HttpCode,
-  Headers,
+  Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiHeader, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { Request } from 'express';
 
 import { EventsService } from './events.service';
 import { CreateEventDto } from './models/dto/event/create-event.dto';
 import { UpdateEventDto } from './models/dto/event/update-event.dto';
 import { AuthGuard } from '../auth/auth.guard';
+
+import { Event } from './models/entities/event.entity';
 
 @Controller('events')
 export class EventsController {
@@ -30,27 +33,27 @@ export class EventsController {
     status: 400,
     description: 'Os dados enviados estão incorretos',
   })
-  @ApiHeader({
-    name: 'authorization',
-    description: 'Bearer token',
-    required: false,
-  })
-  async create(
-    @Headers('authorization') authorization: string,
-    @Body() createEventDto: CreateEventDto,
-  ) {
-    const token = authorization.split(' ')[1];
+  async create(@Req() req: Request, @Body() createEventDto: CreateEventDto) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
     return await this.eventsService.create(token, createEventDto);
   }
 
   @Get()
-  findAll() {
-    return this.eventsService.findAll();
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: [Event] })
+  findAllToUser(@Req() req: Request) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.eventsService.findAllToUser(token);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventsService.findOne(+id);
+  @Get('detail/:id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: Event })
+  findOne(@Req() req: Request, @Param('id') id: string) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.eventsService.findOne(+id, token);
   }
 
   @Patch(':id')

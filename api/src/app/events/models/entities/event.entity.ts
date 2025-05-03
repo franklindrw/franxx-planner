@@ -1,13 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export interface IEventLinks {
-  id: number;
-  title: string;
-  link: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export interface IEvent {
   id: number;
   title: string;
@@ -29,16 +21,25 @@ export class Event implements IEvent {
   @ApiProperty({
     description: 'Descrição do evento',
     example: 'Descrição do evento',
+    required: false,
   })
   description?: string;
 
   @ApiProperty({ description: 'Data do evento', example: '2023-10-01' })
   date: Date;
 
-  @ApiProperty({ description: 'Endereço do evento', example: 'Rua A, 123' })
-  address?: string;
+  @ApiProperty({
+    description: 'Endereço do evento',
+    example: 'Rua A, 123',
+    required: false,
+  })
+  address?: string | null;
 
-  @ApiProperty({ description: 'Hora do evento', example: '13:30' })
+  @ApiProperty({
+    description: 'Hora do evento',
+    example: '13:30',
+    required: false,
+  })
   time?: string;
 
   @ApiProperty({

@@ -4,9 +4,14 @@ import { LinkUserDto } from '../dto/event/link-user.dto';
 import type { IEvent } from '../entities/event.entity';
 
 export abstract class IEventRepository {
-  // abstract findEvents(userId: number): Promise<IEvent[]>;
+  abstract findEvents(userId: number): Promise<IEvent[]>;
 
-  // abstract findEventById(eventId: number): Promise<IEvent | null>;
+  abstract findEventById(eventId: number): Promise<IEvent | null>;
+
+  abstract findUserByEventId(
+    eventId: number,
+    userId: number,
+  ): Promise<IEvent | null>;
 
   abstract createEvent(createEventDto: CreateEventDto): Promise<IEvent>;
 
