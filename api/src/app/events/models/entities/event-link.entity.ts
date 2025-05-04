@@ -4,8 +4,6 @@ export interface IEventLink {
   id: number;
   title: string;
   link: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export class EventLink implements IEventLink {
@@ -25,16 +23,4 @@ export class EventLink implements IEventLink {
     maxLength: 250,
   })
   link: string;
-
-  @ApiProperty({
-    description: 'Data de criação do link',
-    example: '2023-10-01T00:00:00Z',
-  })
-  createdAt: Date;
-
-  @ApiProperty({
-    description: 'Data de atualização do link',
-    example: '2023-10-01T00:00:00Z',
-  })
-  updatedAt: Date;
 }

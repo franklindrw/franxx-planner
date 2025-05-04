@@ -42,10 +42,33 @@ export class EventsRepository implements IEventRepository {
     });
   }
 
-  async findEventById(eventId: number): Promise<IEvent | null> {
+  async findEventById(eventId: number) {
     return await this.prismaService.event.findUnique({
       where: {
         id: eventId,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        date: true,
+        address: true,
+        createdAt: true,
+        updatedAt: true,
+        EventLinks: {
+          select: {
+            id: true,
+            title: true,
+            link: true,
+          },
+        },
+        EventsUsers: {
+          select: {
+            user_id: true,
+            role: true,
+            status: true,
+          },
+        },
       },
     });
   }

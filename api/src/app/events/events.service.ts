@@ -10,7 +10,7 @@ import { UpdateEventDto } from './models/dto/event/update-event.dto';
 import { EventsRepository } from './repositories/events.repository';
 
 import type { ITokenData } from '../auth/models/token-data.entity';
-import type { Event } from './models/entities/event.entity';
+import { EventDetail } from './models/entities/event-detail.entity';
 
 @Injectable()
 export class EventsService {
@@ -43,7 +43,7 @@ export class EventsService {
     return await this.EventsRepository.findEvents(userId);
   }
 
-  async findOne(id: number, token: string): Promise<Event> {
+  async findOne(id: number, token: string): Promise<EventDetail> {
     const decodedToken: ITokenData = this.jwtService.decode(token);
     const userId = decodedToken['id'];
 
@@ -64,12 +64,7 @@ export class EventsService {
       throw new NotFoundException('Evento não encontrado');
     }
 
-    return {
-      ...event,
-      description: event.description ?? undefined,
-      date: event.date!,
-      time: event.time ?? undefined,
-    };
+    return event;
   }
 
   update(id: number, updateEventDto: UpdateEventDto) {

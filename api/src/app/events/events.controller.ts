@@ -19,6 +19,7 @@ import { UpdateEventDto } from './models/dto/event/update-event.dto';
 import { AuthGuard } from '../auth/auth.guard';
 
 import { Event } from './models/entities/event.entity';
+import { EventDetail } from './models/entities/event-detail.entity';
 
 @Controller('events')
 export class EventsController {
@@ -50,7 +51,7 @@ export class EventsController {
   @Get('detail/:id')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  @ApiResponse({ status: 200, type: Event })
+  @ApiResponse({ status: 200, type: EventDetail })
   findOne(@Req() req: Request, @Param('id') id: string) {
     const token: string = req.headers['authorization']!.split(' ')[1];
     return this.eventsService.findOne(+id, token);

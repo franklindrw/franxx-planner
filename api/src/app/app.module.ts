@@ -9,7 +9,7 @@ import { LoggerMiddleware } from 'src/logger/logger.middleware';
 import { LoggerService } from 'src/logger/logger.service';
 import { EventsModule } from './events/events.module';
 @Module({
-  imports: [UsersModule, AuthModule, EventsModule],
+  imports: [AuthModule, UsersModule, EventsModule],
   providers: [
     PrismaService,
     CryptoService,
