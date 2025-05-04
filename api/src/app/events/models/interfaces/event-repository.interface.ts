@@ -8,11 +8,6 @@ export abstract class IEventRepository {
 
   abstract findEventById(eventId: number): Promise<IEvent | null>;
 
-  abstract findUserByEventId(
-    eventId: number,
-    userId: number,
-  ): Promise<IEvent | null>;
-
   abstract createEvent(createEventDto: CreateEventDto): Promise<IEvent>;
 
   abstract linkUserToEvent(linkUserDto: LinkUserDto): Promise<void>;

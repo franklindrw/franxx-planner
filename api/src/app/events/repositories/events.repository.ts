@@ -5,8 +5,8 @@ import { CreateEventDto } from '../models/dto/event/create-event.dto';
 
 import type { IEvent } from '../models/entities/event.entity';
 import type { LinkUserDto } from '../models/dto/event/link-user.dto';
-import { IEventLink } from '../models/entities/event-link.entity';
 import { UpdateEventDto } from '../models/dto/event/update-event.dto';
+import { CreateEventLinkDto } from '../models/dto/event-links/create-event-link.dto';
 
 @Injectable()
 export class EventsRepository implements IEventRepository {
@@ -47,6 +47,20 @@ export class EventsRepository implements IEventRepository {
     return await this.prismaService.event.create({
       data: {
         ...createEventDto,
+      },
+    });
+  }
+
+  async createLink(eventId: number, data: CreateEventLinkDto) {
+    return await this.prismaService.eventLink.create({
+      data: {
+        ...data,
+        event_id: eventId,
+      },
+      omit: {
+        event_id: true,
+        createdAt: true,
+        updatedAt: true,
       },
     });
   }
@@ -101,30 +115,6 @@ export class EventsRepository implements IEventRepository {
             status: true,
           },
         },
-      },
-    });
-  }
-
-  async findUserByEventId(
-    eventId: number,
-    userId: number,
-  ): Promise<IEvent | null> {
-    return await this.prismaService.event.findFirst({
-      where: {
-        id: eventId,
-        EventsUsers: {
-          some: {
-            user_id: userId,
-          },
-        },
-      },
-    });
-  }
-
-  async findLinksByEventId(eventId: number): Promise<IEventLink[]> {
-    return await this.prismaService.eventLink.findMany({
-      where: {
-        event_id: eventId,
       },
     });
   }
