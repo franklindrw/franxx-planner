@@ -10,7 +10,7 @@ import {
   HttpCode,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { EventsService } from './events.service';
@@ -48,22 +48,71 @@ export class EventsController {
     return this.eventsService.findAllToUser(token);
   }
 
-  @Get('detail/:id')
+  @Get('detail/:eventId')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: EventDetail })
-  findOne(@Req() req: Request, @Param('id') id: string) {
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  @ApiParam({
+    name: 'eventId',
+    description: 'ID do evento',
+    required: true,
+  })
+  findOne(@Req() req: Request, @Param('eventId') eventId: string) {
     const token: string = req.headers['authorization']!.split(' ')[1];
-    return this.eventsService.findOne(+id, token);
+    return this.eventsService.findOne(+eventId, token);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
-    return this.eventsService.update(+id, updateEventDto);
+  @Patch(':eventId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: EventDetail })
+  @ApiResponse({
+    status: 400,
+    description: 'Os dados enviados estão incorretos',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Você não tem permissão para acessar este evento',
+  })
+  @ApiParam({
+    name: 'eventId',
+    description: 'ID do evento',
+    required: true,
+    type: 'number',
+  })
+  update(
+    @Req() req: Request,
+    @Param('eventId') eventId: string,
+    @Body() updateEventDto: UpdateEventDto,
+  ) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.eventsService.update(token, +eventId, updateEventDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.eventsService.remove(+id);
+  @Delete(':eventId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: EventDetail })
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  @ApiParam({
+    name: 'eventId',
+    description: 'ID do evento',
+    required: true,
+    type: 'number',
+  })
+  remove(@Req() req: Request, @Param('eventId') eventId: string) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.eventsService.remove(token, +eventId);
   }
 }

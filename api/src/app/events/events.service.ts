@@ -47,7 +47,15 @@ export class EventsService {
     const decodedToken: ITokenData = this.jwtService.decode(token);
     const userId = decodedToken['id'];
 
-    const userAccessEvent = await this.EventsRepository.findUserByEventId(
+    // verifica se o evento existe
+    const event = await this.EventsRepository.findEventById(id);
+
+    if (!event) {
+      throw new NotFoundException('Evento não encontrado');
+    }
+
+    // verifica o acesso do usuário ao evento
+    const userAccessEvent = await this.EventsRepository.accessVerify(
       id,
       userId,
     );
@@ -58,21 +66,69 @@ export class EventsService {
       );
     }
 
-    const event = await this.EventsRepository.findEventById(id);
+    return event;
+  }
+
+  async update(
+    token: string,
+    eventId: number,
+    updateEventDto: UpdateEventDto,
+  ): Promise<EventDetail> {
+    const decodedToken: ITokenData = this.jwtService.decode(token);
+    const userId = decodedToken['id'];
+
+    // verifica se o evento existe
+    const event = await this.EventsRepository.verifyEventExists(eventId);
 
     if (!event) {
       throw new NotFoundException('Evento não encontrado');
     }
 
-    return event;
+    // verifica o acesso do usuário ao evento
+    const userAccessEvent = await this.EventsRepository.accessVerify(
+      eventId,
+      userId,
+    );
+
+    if (!userAccessEvent || userAccessEvent.role !== 'ORGANIZER') {
+      throw new UnauthorizedException(
+        'Você não tem permissão para editar este evento',
+      );
+    }
+
+    // transforma a data para o formato ISO
+    if (updateEventDto.date) {
+      updateEventDto.date = new Date(updateEventDto.date).toISOString();
+    }
+
+    // altera os dados do evento
+    return await this.EventsRepository.updateEvent(eventId, updateEventDto);
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    console.log(updateEventDto);
-    return `This action updates a #${id} event`;
-  }
+  async remove(token: string, eventId: number) {
+    const decodedToken: ITokenData = this.jwtService.decode(token);
+    const userId = decodedToken['id'];
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+    // verifica se o evento existe
+    const event = await this.EventsRepository.verifyEventExists(eventId);
+
+    if (!event) {
+      throw new NotFoundException('Evento não encontrado');
+    }
+
+    // verifica o acesso do usuário ao evento
+    const userAccessEvent = await this.EventsRepository.accessVerify(
+      eventId,
+      userId,
+    );
+
+    if (!userAccessEvent || userAccessEvent.role !== 'ORGANIZER') {
+      throw new UnauthorizedException(
+        'Você não tem permissão para remover este evento',
+      );
+    }
+
+    // remove o evento
+    return await this.EventsRepository.removeEvent(+eventId);
   }
 }

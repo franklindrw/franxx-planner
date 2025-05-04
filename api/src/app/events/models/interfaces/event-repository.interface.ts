@@ -1,6 +1,6 @@
 import { CreateEventDto } from '../dto/event/create-event.dto';
 import { LinkUserDto } from '../dto/event/link-user.dto';
-// import { UpdateEventDto } from '../dto/event/update-event.dto';
+import { UpdateEventDto } from '../dto/event/update-event.dto';
 import type { IEvent } from '../entities/event.entity';
 
 export abstract class IEventRepository {
@@ -17,7 +17,18 @@ export abstract class IEventRepository {
 
   abstract linkUserToEvent(linkUserDto: LinkUserDto): Promise<void>;
 
-  // abstract UpdateEvent(UpdateEventDto: UpdateEventDto): Promise<IEvent>;
+  abstract updateEvent(
+    eventId: number,
+    UpdateEventDto: UpdateEventDto,
+  ): Promise<IEvent>;
 
-  // abstract deleteEvent(eventId: number): Promise<void>;
+  abstract accessVerify(
+    eventId: number,
+    userId: number,
+  ): Promise<{
+    role: 'ORGANIZER' | 'PARTICIPANT';
+    status: 'ACCEPTED' | 'PENDING' | 'REJECTED';
+  } | null>;
+
+  abstract removeEvent(eventId: number): Promise<void>;
 }
