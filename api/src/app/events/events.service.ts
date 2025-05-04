@@ -159,4 +159,13 @@ export class EventsService {
     // remove o evento
     return await this.EventsRepository.removeEvent(+eventId);
   }
+
+  async removeLink(linkId: number) {
+    // remove o link
+    await this.EventsRepository.removeLink(+linkId);
+
+    return {
+      message: 'Link removido com sucesso',
+    };
+  }
 }

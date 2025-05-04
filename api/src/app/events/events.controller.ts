@@ -134,4 +134,26 @@ export class EventsController {
     const token: string = req.headers['authorization']!.split(' ')[1];
     return this.eventsService.remove(token, +eventId);
   }
+
+  @Delete('remove-link/:linkId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, description: 'Link removido com sucesso' })
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Você não tem permissão para acessar este evento',
+  })
+  @ApiParam({
+    name: 'linkId',
+    description: 'ID do link',
+    required: true,
+    type: 'number',
+  })
+  removeLink(@Param('linkId') linkId: string) {
+    return this.eventsService.removeLink(+linkId);
+  }
 }

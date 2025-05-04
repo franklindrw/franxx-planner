@@ -137,4 +137,12 @@ export class EventsRepository implements IEventRepository {
       },
     });
   }
+
+  async removeLink(linkId: number): Promise<void> {
+    await this.prismaService.eventLink.delete({
+      where: {
+        id: Number(linkId),
+      },
+    });
+  }
 }
