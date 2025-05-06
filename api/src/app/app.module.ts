@@ -8,8 +8,9 @@ import { UsersRepository } from './users/users.repository';
 import { LoggerMiddleware } from 'src/logger/logger.middleware';
 import { LoggerService } from 'src/logger/logger.service';
 import { EventsModule } from './events/events.module';
+import { ParticipantsModule } from './participants/participants.module';
 @Module({
-  imports: [AuthModule, UsersModule, EventsModule],
+  imports: [AuthModule, UsersModule, EventsModule, ParticipantsModule],
   providers: [
     PrismaService,
     CryptoService,
