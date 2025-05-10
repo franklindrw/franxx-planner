@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 
 import { mapEventParticipant } from './mappers/eventParticipant.map';
+import { UpdateParticipantDto } from './dto/update-participant.dto';
 
 @Injectable()
 export class ParticipantsRepository {
@@ -36,6 +37,25 @@ export class ParticipantsRepository {
         user_id: userId,
         role: 'PARTICIPANT',
         status: 'PENDING',
+      },
+    });
+  }
+
+  async updateStatus(data: UpdateParticipantDto) {
+    return await this.prismaService.eventsUsers.update({
+      where: {
+        id: data.participantId,
+      },
+      data: {
+        status: data.status,
+      },
+    });
+  }
+
+  async removeParticipant(participantId: number) {
+    return await this.prismaService.eventsUsers.delete({
+      where: {
+        id: participantId,
       },
     });
   }

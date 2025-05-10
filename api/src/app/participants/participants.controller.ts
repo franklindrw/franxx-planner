@@ -17,6 +17,7 @@ import { ParticipantsService } from './participants.service';
 
 import { AddParticipantDto } from './dto/add-participant.dto';
 import { Participant } from './entities/participant.entity';
+import { UpdateParticipantDto } from './dto/update-participant.dto';
 
 @Controller('participants')
 export class ParticipantsController {
@@ -54,16 +55,43 @@ export class ParticipantsController {
     return this.participantsService.findUsersByEventId(+eventId);
   }
 
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateParticipantDto: UpdateParticipantDto,
-  // ) {
-  //   return this.participantsService.update(+id, updateParticipantDto);
-  // }
+  @Patch('status-update')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'status do participante foi alterado',
+  })
+  @ApiResponse({
+    status: 403,
+    description:
+      'Você não tem permissão para adicionar participantes a este evento',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  update(@Body() updateParticipantDto: UpdateParticipantDto) {
+    return this.participantsService.updateStatus(updateParticipantDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.participantsService.remove(+id);
-  // }
+  @Delete(':participantId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 200,
+    description: 'participante removido com sucesso',
+  })
+  @ApiResponse({
+    status: 403,
+    description:
+      'Você não tem permissão para adicionar participantes a este evento',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Evento não encontrado',
+  })
+  remove(@Param('participantId') participantId: string) {
+    return this.participantsService.remove(+participantId);
+  }
 }

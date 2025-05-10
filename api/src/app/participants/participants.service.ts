@@ -65,15 +65,17 @@ export class ParticipantsService {
     );
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} participant`;
-  // }
+  // async findEventsByUserId(userId: number): Promise<Participant[]> {}
 
-  update(updateParticipantDto: UpdateParticipantDto) {
-    return `This action updates a #${id} participant`;
+  async updateStatus(updateParticipantDto: UpdateParticipantDto) {
+    await this.participantsRepository.updateStatus(updateParticipantDto);
+
+    return { message: 'status do participante foi alterado' };
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} participant`;
-  // }
+  async remove(participantId: number) {
+    await this.participantsRepository.removeParticipant(participantId);
+
+    return { message: 'participante removido com sucesso' };
+  }
 }
