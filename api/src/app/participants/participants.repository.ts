@@ -30,6 +30,35 @@ export class ParticipantsRepository {
     return participants.map(mapEventParticipant);
   }
 
+  async findEventsByUserId(userId: number) {
+    const eventsUsers = await this.prismaService.eventsUsers.findMany({
+      where: {
+        user_id: userId,
+      },
+      select: {
+        id: true,
+        role: true,
+        status: true,
+        event: {
+          select: {
+            title: true,
+            description: true,
+            date: true,
+            time: true,
+            address: true,
+          },
+        },
+      },
+    });
+
+    return eventsUsers.map((eventUser) => ({
+      participant_id: eventUser.id,
+      ...eventUser.event,
+      role: eventUser.role,
+      status: eventUser.status,
+    }));
+  }
+
   async addParticipant(eventId: number, userId: number) {
     return await this.prismaService.eventsUsers.create({
       data: {

@@ -11,6 +11,8 @@ import { EventsRepository } from '../events/repositories/events.repository';
 import { ParticipantsRepository } from './participants.repository';
 
 import type { ITokenData } from '../auth/models/token-data.entity';
+import type { FindEventsByUser } from './interfaces/findEventsByUser';
+
 import { AddParticipantDto } from './dto/add-participant.dto';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
 
@@ -65,7 +67,9 @@ export class ParticipantsService {
     );
   }
 
-  // async findEventsByUserId(userId: number): Promise<Participant[]> {}
+  async findEventsByUserId(userId: number): Promise<FindEventsByUser[]> {
+    return await this.participantsRepository.findEventsByUserId(+userId);
+  }
 
   async updateStatus(updateParticipantDto: UpdateParticipantDto) {
     await this.participantsRepository.updateStatus(updateParticipantDto);

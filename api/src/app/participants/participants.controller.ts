@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
@@ -18,6 +19,8 @@ import { ParticipantsService } from './participants.service';
 import { AddParticipantDto } from './dto/add-participant.dto';
 import { Participant } from './entities/participant.entity';
 import { UpdateParticipantDto } from './dto/update-participant.dto';
+import { FindEventsByUser } from './interfaces/findEventsByUser';
+import { EventsParticipantsDto } from './dto/events-participants.dto';
 
 @Controller('participants')
 export class ParticipantsController {
@@ -47,12 +50,26 @@ export class ParticipantsController {
     return this.participantsService.addParticipant(token, addParticipantDto);
   }
 
-  @Get(':eventId')
+  @Get()
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: [Participant] })
-  findUsersByEvent(@Param('eventId') eventId: number) {
-    return this.participantsService.findUsersByEventId(+eventId);
+  findUsersByEvent(@Query() queryParams: EventsParticipantsDto) {
+    if (queryParams.eventId) {
+      return this.participantsService.findUsersByEventId(+queryParams.eventId);
+    }
+
+    if (queryParams.userId) {
+      return this.participantsService.findEventsByUserId(+queryParams.userId);
+    }
+  }
+
+  @Get(':userId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: FindEventsByUser })
+  findEventsByUserId(@Param('userId') userId: number) {
+    return this.participantsService.findEventsByUserId(+userId);
   }
 
   @Patch('status-update')
