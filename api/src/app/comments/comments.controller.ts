@@ -34,25 +34,31 @@ export class CommentsController {
   @Get(':eventId')
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  @ApiResponse({ status: 200, type: Comment })
+  @ApiResponse({ status: 201, type: Comment })
   findCommentsByEvent(@Req() req: Request, @Param('eventId') eventId: number) {
     const token: string = req.headers['authorization']!.split(' ')[1];
     return this.commentsService.findCommentsByEventId(token, eventId);
   }
 
-  @Patch(':event_id')
+  @Patch(':eventId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: Comment })
   update(
     @Req() req: Request,
-    @Param('event_id') id: string,
+    @Param('eventId') eventId: number,
     @Body() data: UpdateCommentDto,
   ) {
     const token: string = req.headers['authorization']!.split(' ')[1];
-    const event_id: number = +id;
-    return this.commentsService.update(token, event_id, data);
+    return this.commentsService.update(token, +eventId, data);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+  @Delete(':commentId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: Comment })
+  remove(@Req() req: Request, @Param('commentId') commentId: number) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.commentsService.remove(token, +commentId);
   }
 }

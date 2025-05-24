@@ -24,13 +24,29 @@ export class CommentsRepository {
     });
   }
 
+  async findCommentById(comment_id: number) {
+    return await this.prismaService.eventComment.findUnique({
+      where: {
+        id: comment_id,
+      },
+    });
+  }
+
   async updateComment(data: UpdateCommentDto) {
     return await this.prismaService.eventComment.update({
       where: {
-        id: data.comment_id,
+        id: +data.comment_id,
       },
       data: {
         comment: data.comment,
+      },
+    });
+  }
+
+  async deleteComment(comment_id: number) {
+    return await this.prismaService.eventComment.delete({
+      where: {
+        id: comment_id,
       },
     });
   }
