@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
 
 @Injectable()
 export class CommentsRepository {
@@ -19,6 +20,17 @@ export class CommentsRepository {
     return await this.prismaService.eventComment.findMany({
       where: {
         event_id,
+      },
+    });
+  }
+
+  async updateComment(data: UpdateCommentDto) {
+    return await this.prismaService.eventComment.update({
+      where: {
+        id: data.comment_id,
+      },
+      data: {
+        comment: data.comment,
       },
     });
   }

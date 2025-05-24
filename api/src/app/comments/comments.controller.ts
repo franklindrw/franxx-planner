@@ -40,9 +40,15 @@ export class CommentsController {
     return this.commentsService.findCommentsByEventId(token, eventId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
+  @Patch(':event_id')
+  update(
+    @Req() req: Request,
+    @Param('event_id') id: string,
+    @Body() data: UpdateCommentDto,
+  ) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    const event_id: number = +id;
+    return this.commentsService.update(token, event_id, data);
   }
 
   @Delete(':id')

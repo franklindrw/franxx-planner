@@ -32,11 +32,17 @@ export class CommentsService {
       throw new NotFoundException('Evento nao encontrado');
     }
 
-    return this.commentsRepository.getCommentsByEventId(+event_id);
+    return await this.commentsRepository.getCommentsByEventId(+event_id);
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async update(token: string, event_id: number, data: UpdateCommentDto) {
+    // verifica se o evento existe
+    const event = await this.eventsService.findOne(+event_id, token);
+    if (!event) {
+      throw new NotFoundException('Evento nao encontrado');
+    }
+
+    return await this.commentsRepository.updateComment(data);
   }
 
   remove(id: number) {
