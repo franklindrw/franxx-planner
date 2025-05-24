@@ -1,15 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { Request } from 'express';
+
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { Comment } from './entities/comment.entity';
 
 @Controller('comments')
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Post()
-  create(@Body() createCommentDto: CreateCommentDto) {
-    return this.commentsService.create(createCommentDto);
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 201, type: Comment })
+  create(@Req() req: Request, @Body() createCommentDto: CreateCommentDto) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.commentsService.create(token, createCommentDto);
   }
 
   @Get()
