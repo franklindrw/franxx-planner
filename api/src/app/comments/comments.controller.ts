@@ -31,14 +31,13 @@ export class CommentsController {
     return this.commentsService.create(token, createCommentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.commentsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
+  @Get(':eventId')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiResponse({ status: 200, type: Comment })
+  findCommentsByEvent(@Req() req: Request, @Param('eventId') eventId: number) {
+    const token: string = req.headers['authorization']!.split(' ')[1];
+    return this.commentsService.findCommentsByEventId(token, eventId);
   }
 
   @Patch(':id')

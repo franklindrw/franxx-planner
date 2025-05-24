@@ -14,4 +14,12 @@ export class CommentsRepository {
       },
     });
   }
+
+  async getCommentsByEventId(event_id: number) {
+    return await this.prismaService.eventComment.findMany({
+      where: {
+        event_id,
+      },
+    });
+  }
 }
