@@ -1,0 +1,79 @@
+@use "variables" as *;
+
+:host {
+  display: block;
+  background-color: $bg-content;
+  padding: 4px 16px;
+  border-radius: 16px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.calendary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  &__heading {
+    display: flex;
+    align-items: flex-end;
+    margin: 16px 0;
+    gap: 8px;
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    span {
+      color: $font-gray;
+    }
+  }
+
+  &__cards-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__card {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background-color: $bg-card;
+    border-radius: 8px;
+
+    &:hover {
+      cursor: pointer;
+      transform: translateX(4px);
+    }
+  }
+
+  &__title {
+    font-size: 1.1em;
+    font-weight: 500;
+  }
+
+  &__hour {
+    font-size: 0.8em;
+  }
+
+  &__no-activity {
+    color: $font-gray;
+    font-size: 0.8em;
+    padding: 8px 16px;
+  }
+}

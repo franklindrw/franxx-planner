@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { HeaderComponent } from '@shared/components/header/header.component';
+import { ActivityPanelComponent } from '@features/home/components/activity-panel/activity-panel.component';
+import { InvitesPanelComponent } from '@features/home/components/invites-panel/invites-panel.component';
 
 import { UserStore } from '@shared/stores/user.store';
 import { AuthUseCase } from '@core/use-cases/auth.use-case';
@@ -10,7 +12,7 @@ import type { IUser } from '@core/models/interfaces/user/IUser';
 
 @Component({
   selector: 'app-home-page',
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ActivityPanelComponent, InvitesPanelComponent],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })

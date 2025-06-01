@@ -1,0 +1,26 @@
+@use "variables" as *;
+
+.calendary {
+  &__card {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background-color: $bg-card;
+    border-radius: 8px;
+
+    &:hover {
+      cursor: pointer;
+      transform: translateX(4px);
+    }
+  }
+
+  &__title {
+    font-size: 1.1em;
+    font-weight: 500;
+  }
+
+  &__hour {
+    font-size: 0.8em;
+  }
+}

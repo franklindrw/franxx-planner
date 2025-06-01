@@ -13,3 +13,11 @@
   color: #fff;
   font-weight: 700;
 }
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  min-height: 80dvh;
+  margin-top: 24px;
+}
