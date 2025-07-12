@@ -1,0 +1,56 @@
+FROM node:23-alpine AS builder
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+# copia o arquivo de dependências e instala
+COPY ./api/package*.json ./
+RUN npm install
+
+COPY ./api/ .
+
+RUN npx prisma generate
+
+# executa o build
+RUN npm run build
+
+# remove as dependencias de desenvolvimento
+# RUN npm prune --production
+
+# =========================================
+FROM node:23-alpine
+
+RUN apk add --no-cache openssl ca-certificates
+
+# Cria um usuário e grupo para o app
+RUN addgroup --system franxx_planner && adduser --system --ingroup franxx_planner --no-create-home franxx_api
+
+WORKDIR /app
+
+# copia o código compilado
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+# copia o arquivo de configuração
+COPY --from=builder /app/prisma ./prisma
+
+# Copia o script de entrypoint e o torna executável
+COPY ./api/entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+
+# COPY --from=builder /app/node_modules/.prisma/client ./node_modules/.prisma/client
+
+# cria um usuário não root para a aplicação dentro do container
+RUN chown -R franxx_api:franxx_planner /app
+USER franxx_api
+
+EXPOSE 3000
+
+# Define o entrypoint para o nosso script
+ENTRYPOINT ["./entrypoint.sh"]
+
+# O comando para iniciar a aplicação em produção
+CMD ["node", "dist/main.js"]
+# CMD ["tail", "-f", "/dev/null"]

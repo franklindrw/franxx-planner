@@ -1,0 +1,40 @@
+# Ignorar arquivos e pastas do Git
+.git
+.gitignore
+
+# Ignorar arquivos de configuração de IDEs e editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar arquivos de log e de dependências do sistema operacional
+*.log
+*.swp
+*~
+Thumbs.db
+.DS_Store
+
+# Ignorar o próprio Dockerfile e o .dockerignore
+# (eles são necessários para o build, mas não precisam estar DENTRO da imagem)
+Dockerfile*
+.dockerignore
+
+# Ignorar documentação e arquivos de configuração comuns que não são necessários em produção
+README.md
+LICENSE
+.env
+.env.local
+.env.development
+
+# Ignorar pastas de dependências que serão instaladas DENTRO do contêiner
+node_modules/
+venv/
+.venv/
+vendor/
+
+# Ignorar pastas de build/distribuição que podem estar na máquina local
+# Muitas vezes, o build é feito dentro do contêiner
+dist/
+build/
+target/

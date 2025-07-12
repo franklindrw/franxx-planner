@@ -10,8 +10,19 @@ import { LoggerService } from 'src/logger/logger.service';
 import { EventsModule } from './events/events.module';
 import { ParticipantsModule } from './participants/participants.module';
 import { CommentsModule } from './comments/comments.module';
+import { ConfigModule } from '@nestjs/config';
 @Module({
-  imports: [AuthModule, UsersModule, EventsModule, ParticipantsModule, CommentsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    AuthModule,
+    UsersModule,
+    EventsModule,
+    ParticipantsModule,
+    CommentsModule,
+  ],
   providers: [
     PrismaService,
     CryptoService,
