@@ -1,0 +1,33 @@
+.close-btn {
+  align-self: flex-end;
+  margin: 12px 12px 0;
+}
+
+.form-fields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+  gap: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.time-field {
+  width: 300px;
+}
+
+.fields-datehour {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media screen and (min-width: 600px) {
+  .fields-datehour {
+    flex-direction: row;
+  }
+}
+

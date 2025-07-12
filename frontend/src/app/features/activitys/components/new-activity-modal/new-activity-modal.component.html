@@ -1,1 +1,69 @@
-<p>new-activity-modal works!</p>
+<button mat-icon-button mat-dialog-close aria-label="Fechar" class="close-btn">
+  <mat-icon fontIcon="close" />
+</button>
+
+<h2 mat-dialog-title>Adicionar Atividade</h2>
+<form action="">
+  <mat-dialog-content>
+    <span>Todos os convidados podem visualizar as atividades</span>
+
+    <div class="form-fields">
+      <mat-form-field>
+        <mat-label>Qual a atividade?</mat-label>
+        <mat-icon fontIcon="sell" matPrefix />
+        <input
+          matInput
+          placeholder="Digite o nome da atividade"
+          formControlName="activity_name"
+          required
+        />
+      </mat-form-field>
+
+      <div class="fields-datehour">
+        <app-custom-datapicker
+          placeholder="Quando será?"
+          formControlName="activity_date"
+          [required]="true"
+        ></app-custom-datapicker>
+
+        <mat-form-field class="time-field">
+          <mat-label>Horário</mat-label>
+          <mat-icon fontIcon="schedule" matPrefix />
+          <input
+            matInput
+            type="time"
+            formControlName="activity_time"
+            placeholder="Selecione o horário"
+          />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Local</mat-label>
+        <mat-icon fontIcon="place" matPrefix />
+        <input
+          matInput
+          placeholder="Onde será a atividade?"
+          formControlName="activity_location"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea
+          matInput
+          placeholder="Descreva a atividade"
+          formControlName="activity_description"
+          rows="3"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button type="submit" mat-raised-button color="primary">
+      Adicionar Atividade
+    </button>
+  </mat-dialog-actions>
+</form>

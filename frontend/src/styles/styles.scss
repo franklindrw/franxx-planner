@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
 
+// customizando o tema do material ui
+@include mat.elevation-classes();
+@include mat.app-background();
+
 html,
 body {
   height: 100%;
@@ -11,9 +15,6 @@ body {
   font-family: "Open Sans", sans-serif;
   background-color: #09090b;
 }
-
-// customizando o tema do material ui
-@include mat.core();
 
 $default-theme: mat.define-theme(
   (
