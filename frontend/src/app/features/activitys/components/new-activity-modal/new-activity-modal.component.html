@@ -3,7 +3,7 @@
 </button>
 
 <h2 mat-dialog-title>Adicionar Atividade</h2>
-<form action="">
+<form [formGroup]="formActivity" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
     <span>Todos os convidados podem visualizar as atividades</span>
 
@@ -14,17 +14,26 @@
         <input
           matInput
           placeholder="Digite o nome da atividade"
-          formControlName="activity_name"
+          formControlName="title"
           required
         />
+        @if (errorMessage(formActivity.get('title'))) {
+        <mat-error>{{ errorMessage(formActivity.get("title")) }}</mat-error>
+        }
       </mat-form-field>
 
       <div class="fields-datehour">
-        <app-custom-datapicker
-          placeholder="Quando será?"
-          formControlName="activity_date"
-          [required]="true"
-        ></app-custom-datapicker>
+        <div>
+          <app-custom-datapicker
+            placeholder="Quando será?"
+            formControlName="date"
+            [required]="true"
+          >
+          </app-custom-datapicker>
+          @if (errorMessage(formActivity.get('date'))) {
+          <mat-error>{{ errorMessage(formActivity.get("date")) }}</mat-error>
+          }
+        </div>
 
         <mat-form-field class="time-field">
           <mat-label>Horário</mat-label>
@@ -32,9 +41,12 @@
           <input
             matInput
             type="time"
-            formControlName="activity_time"
+            formControlName="time"
             placeholder="Selecione o horário"
           />
+          @if (errorMessage(formActivity.get('time'))) {
+          <mat-error>{{ errorMessage(formActivity.get("time")) }}</mat-error>
+          }
         </mat-form-field>
       </div>
 
@@ -44,8 +56,11 @@
         <input
           matInput
           placeholder="Onde será a atividade?"
-          formControlName="activity_location"
+          formControlName="address"
         />
+        @if (errorMessage(formActivity.get('address'))) {
+        <mat-error>{{ errorMessage(formActivity.get("address")) }}</mat-error>
+        }
       </mat-form-field>
 
       <mat-form-field>
@@ -53,9 +68,14 @@
         <textarea
           matInput
           placeholder="Descreva a atividade"
-          formControlName="activity_description"
+          formControlName="description"
           rows="3"
         ></textarea>
+        @if (errorMessage(formActivity.get('description'))) {
+        <mat-error>{{
+          errorMessage(formActivity.get("description"))
+        }}</mat-error>
+        }
       </mat-form-field>
     </div>
   </mat-dialog-content>
@@ -63,7 +83,11 @@
   <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancelar</button>
     <button type="submit" mat-raised-button color="primary">
-      Adicionar Atividade
+      @if (submitting) {
+      <mat-spinner diameter="20"></mat-spinner>
+      } @else {
+      <span>Adicionar Atividade</span>
+      }
     </button>
   </mat-dialog-actions>
 </form>

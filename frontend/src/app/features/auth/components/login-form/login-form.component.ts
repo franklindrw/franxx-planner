@@ -1,10 +1,15 @@
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { ToastService } from '@shared/services/toast.service';
-import { AuthUseCase } from '@core/use-cases/auth.use-case';
+import { AuthUseCase } from '@features/auth/application/auth.use-case';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatInputModule } from '@angular/material/input';
@@ -26,7 +31,7 @@ import { formErrorMessage } from '@shared/utils/formErrorMessage';
     NgIf,
   ],
   templateUrl: './login-form.component.html',
-  styleUrl: './login-form.component.scss'
+  styleUrl: './login-form.component.scss',
 })
 export class LoginFormComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
@@ -39,7 +44,8 @@ export class LoginFormComponent implements OnInit {
   hide = signal(true);
   errorMessage = formErrorMessage;
 
-  redirect = this.router.routerState.snapshot.root.queryParams['redirectTo'] || '/home';
+  redirect =
+    this.router.routerState.snapshot.root.queryParams['redirectTo'] || '/home';
 
   toggleHide() {
     this.hide.set(!this.hide());
@@ -62,18 +68,17 @@ export class LoginFormComponent implements OnInit {
     this.submitting = true;
     const { email, password } = this.loginForm.value;
 
-    this.authUseCase.login(email, password)
-      .subscribe({
-        next: () => this.router.navigate([this.redirect]),
-        error: (err) => {
-          console.error(err);
-          this.toastService.open({
-            title: 'Ops! ocorreu um erro!',
-            desc: err.error?.message || 'Erro desconhecido',
-            type: 'error',
-          });
-          this.submitting = false;
-        }
-      });
+    this.authUseCase.login(email, password).subscribe({
+      next: () => this.router.navigate([this.redirect]),
+      error: (err) => {
+        console.error(err);
+        this.toastService.open({
+          title: 'Ops! ocorreu um erro!',
+          desc: err.error?.message || 'Erro desconhecido',
+          type: 'error',
+        });
+        this.submitting = false;
+      },
+    });
   }
 }

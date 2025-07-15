@@ -6,7 +6,7 @@ import { ActivityPanelComponent } from '@features/home/components/activity-panel
 import { InvitesPanelComponent } from '@features/home/components/invites-panel/invites-panel.component';
 
 import { UserStore } from '@shared/stores/user.store';
-import { AuthUseCase } from '@core/use-cases/auth.use-case';
+import { AuthUseCase } from '@features/auth/application/auth.use-case';
 
 import type { IUser } from '@core/models/interfaces/user/IUser';
 
@@ -14,7 +14,7 @@ import type { IUser } from '@core/models/interfaces/user/IUser';
   selector: 'app-home-page',
   imports: [HeaderComponent, ActivityPanelComponent, InvitesPanelComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
   private readonly userStore = inject(UserStore);
